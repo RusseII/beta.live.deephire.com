@@ -7,7 +7,7 @@ import { StateContextType } from '../../../../state';
 const useStyles = makeStyles({
   red: {
     color: 'white',
-    backgroundColor: '#F22F46',
+    backgroundColor: '#1890ff',
   },
 });
 

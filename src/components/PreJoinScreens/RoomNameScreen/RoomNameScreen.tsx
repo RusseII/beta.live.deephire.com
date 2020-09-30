@@ -57,7 +57,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
       <Typography variant="body1">
         {hasUsername
           ? "Enter the name of a room you'd like to join."
-          : "Enter your name and the name of a room you'd like to join"}
+          : "Enter your name below"}
       </Typography>
       <form onSubmit={handleSubmit}>
         <div className={classes.inputContainer}>
