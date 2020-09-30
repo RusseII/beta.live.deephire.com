@@ -8,16 +8,21 @@ import { useAppState } from '../../state';
 import { useParams } from 'react-router-dom';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import Video from 'twilio-video';
+import useLive from '../../hooks/useLive';
+import { Spin, Result } from 'antd';
 
 export enum Steps {
   roomNameStep,
   deviceSelectionStep,
 }
-
+interface ParamTypes {
+  URLRoomName: string;
+}
 export default function PreJoinScreens() {
+  const { data, isLoading, isError } = useLive();
   const { user } = useAppState();
   const { getAudioAndVideoTracks } = useVideoContext();
-  const { URLRoomName } = useParams();
+  const { URLRoomName } = useParams<ParamTypes>();
   const [step, setStep] = useState(Steps.roomNameStep);
 
   const [name, setName] = useState<string>(user?.displayName || '');
@@ -60,21 +65,42 @@ export default function PreJoinScreens() {
     </>
   );
 
+  if (isError) {
+    return (
+      <IntroContainer subContent={step === Steps.deviceSelectionStep && SubContent}>
+        <Result status="error" title="Error Finding Interview Room" />
+      </IntroContainer>
+    );
+  }
+  if (!URLRoomName) {
+    return (
+      <IntroContainer subContent={step === Steps.deviceSelectionStep && SubContent}>
+        <Result
+          status="warning"
+          title="Link is invalid."
+          subTitle="Find the link that was sent to you for the interview. Copy paste it in your browser. If it is still not working, get in contact with your recruiter."
+        />
+      </IntroContainer>
+    );
+  }
+
   return (
     <IntroContainer subContent={step === Steps.deviceSelectionStep && SubContent}>
-      {step === Steps.roomNameStep && (
-        <RoomNameScreen
-          name={name}
-          roomName={roomName}
-          setName={setName}
-          setRoomName={setRoomName}
-          handleSubmit={handleSubmit}
-        />
-      )}
+      <Spin spinning={isLoading}>
+        {step === Steps.roomNameStep && (
+          <RoomNameScreen
+            name={name}
+            roomName={roomName}
+            setName={setName}
+            setRoomName={setRoomName}
+            handleSubmit={handleSubmit}
+          />
+        )}
 
-      {step === Steps.deviceSelectionStep && (
-        <DeviceSelectionScreen name={name} roomName={roomName} setStep={setStep} />
-      )}
+        {step === Steps.deviceSelectionStep && (
+          <DeviceSelectionScreen name={name} roomName={roomName} setStep={setStep} />
+        )}
+      </Spin>
     </IntroContainer>
   );
 }
