@@ -43,16 +43,16 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
     setName(event.target.value);
   };
 
-  const handleRoomNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setRoomName(event.target.value);
-  };
+  // const handleRoomNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setRoomName(event.target.value);
+  // };
 
   const hasUsername = !window.location.search.includes('customIdentity=true') && user?.displayName;
 
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join a Room
+        Join Video Interview
       </Typography>
       <Typography variant="body1">
         {hasUsername
@@ -76,7 +76,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
               />
             </div>
           )}
-          <div className={classes.textFieldContainer}>
+          {/* <div className={classes.textFieldContainer}>
             <InputLabel shrink htmlFor="input-room-name">
               Room Name
             </InputLabel>
@@ -89,7 +89,7 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
               value={roomName}
               onChange={handleRoomNameChange}
             />
-          </div>
+          </div> */}
         </div>
         <Grid container justify="flex-end">
           <Button
