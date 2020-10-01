@@ -1,7 +1,9 @@
 import React from 'react';
 import Video from 'twilio-video';
-import { Container, Link, Typography, Paper, Grid } from '@material-ui/core';
+import { Container, Link, Paper, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Result, Typography } from 'antd';
+import { ChromeOutlined, AppleOutlined } from '@ant-design/icons';
 
 const useStyles = makeStyles({
   container: {
@@ -15,44 +17,33 @@ const useStyles = makeStyles({
   },
 });
 
-export default function({ children }: { children: React.ReactElement }) {
-  const classes = useStyles();
+const showChromeBrowser = () => (
+  <Result
+    title="You must be using Google Chrome to access this site"
+    icon={<ChromeOutlined />}
+    subTitle="Please copy the below link and paste it in Google Chrome"
+    extra={<Typography.Paragraph copyable>{window.location.href}</Typography.Paragraph>}
+  />
+);
 
+const showSafariBrowser = () => (
+  <Result
+    title="You must be using Safari to access this site"
+    icon={<AppleOutlined />}
+    subTitle="Please copy the below link and paste it in Safari"
+    extra={<Typography.Paragraph copyable>{window.location.href}</Typography.Paragraph>}
+  />
+);
+
+export default function({ children }: { children: React.ReactElement }) {
   if (!Video.isSupported) {
-    return (
-      <Container>
-        <Grid container justify="center" className={classes.container}>
-          <Grid item xs={12} sm={6}>
-            <Paper className={classes.paper}>
-              <Typography variant="h4" className={classes.heading}>
-                Browser or context not supported
-              </Typography>
-              <Typography>
-                Please open this application in one of the{' '}
-                <Link
-                  href="https://www.twilio.com/docs/video/javascript#supported-browsers"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  supported browsers
-                </Link>
-                .
-                <br />
-                If you are using a supported browser, please ensure that this app is served over a{' '}
-                <Link
-                  href="https://developer.mozilla.org/en-US/docs/Web/Security/Secure_Contexts"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  secure context
-                </Link>{' '}
-                (e.g. https or localhost).
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-      </Container>
-    );
+    const { detect } = require('detect-browser');
+    const browser = detect();
+    if (browser && browser.name === 'chrome') return children;
+    if (browser && browser.os === 'iOS') {
+      return showSafariBrowser();
+    }
+    return showChromeBrowser();
   }
 
   return children;
