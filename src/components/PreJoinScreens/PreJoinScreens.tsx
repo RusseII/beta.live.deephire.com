@@ -8,7 +8,7 @@ import { useAppState } from '../../state';
 import { useParams } from 'react-router-dom';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import Video from 'twilio-video';
-import useLive from '../../hooks/useLive';
+import { useLive, useCompany } from '../../hooks/useLive';
 import { Spin, Result } from 'antd';
 
 export enum Steps {
@@ -20,6 +20,10 @@ interface ParamTypes {
 }
 export default function PreJoinScreens() {
   const { data, isLoading, isError } = useLive();
+
+  // preload company data
+  useCompany();
+
   const { user } = useAppState();
   const { getAudioAndVideoTracks } = useVideoContext();
   const { URLRoomName } = useParams<ParamTypes>();
@@ -89,6 +93,7 @@ export default function PreJoinScreens() {
       <Spin spinning={isLoading}>
         {step === Steps.roomNameStep && (
           <RoomNameScreen
+            companyName={data?.companyName}
             name={name}
             roomName={roomName}
             setName={setName}

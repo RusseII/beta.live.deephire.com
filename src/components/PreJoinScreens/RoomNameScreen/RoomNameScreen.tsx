@@ -33,9 +33,17 @@ interface RoomNameScreenProps {
   setName: (name: string) => void;
   setRoomName: (roomName: string) => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  companyName: string;
 }
 
-export default function RoomNameScreen({ name, roomName, setName, setRoomName, handleSubmit }: RoomNameScreenProps) {
+export default function RoomNameScreen({
+  name,
+  roomName,
+  setName,
+  setRoomName,
+  handleSubmit,
+  companyName,
+}: RoomNameScreenProps) {
   const classes = useStyles();
   const { user } = useAppState();
 
@@ -52,12 +60,10 @@ export default function RoomNameScreen({ name, roomName, setName, setRoomName, h
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join Video Interview
+        {companyName} Video Interview
       </Typography>
       <Typography variant="body1">
-        {hasUsername
-          ? "Enter the name of a room you'd like to join."
-          : "Enter your name below"}
+        {hasUsername ? "Enter the name of a room you'd like to join." : 'Enter your name to join the interview'}
       </Typography>
       <form onSubmit={handleSubmit}>
         <div className={classes.inputContainer}>

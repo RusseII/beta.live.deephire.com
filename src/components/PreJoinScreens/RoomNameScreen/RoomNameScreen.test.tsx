@@ -20,7 +20,7 @@ describe('the RoomNameScreen component', () => {
       />
     );
 
-    expect(wrapper.text()).toContain("Enter your name below");
+    expect(wrapper.text()).toContain('Enter your name to join the interview');
     expect(wrapper.find(TextField).length).toBe(2);
   });
 
@@ -59,7 +59,7 @@ describe('the RoomNameScreen component', () => {
       />
     );
 
-    expect(wrapper.text()).toContain("Enter your name below");
+    expect(wrapper.text()).toContain('Enter your name to join the interview');
     expect(wrapper.find(TextField).length).toBe(2);
   });
 });

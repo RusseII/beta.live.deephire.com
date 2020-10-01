@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 interface ParamTypes {
   URLRoomName: string;
 }
-const useRoomData = () => {
+export const useLive = () => {
   const { URLRoomName } = useParams<ParamTypes>();
 
   const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher);
@@ -17,4 +17,12 @@ const useRoomData = () => {
   };
 };
 
-export default useRoomData;
+export const useCompany = () => {
+  const { data: liveData } = useLive();
+  const { data, error } = useSWR(liveData?.companyId ? [`/v1/companies/${liveData.companyId}`] : null, fetcher);
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
