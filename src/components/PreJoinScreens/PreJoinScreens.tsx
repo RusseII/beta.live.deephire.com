@@ -8,7 +8,7 @@ import { useAppState } from '../../state';
 import { useParams } from 'react-router-dom';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import Video from 'twilio-video';
-import { useLive, useCompany } from '../../hooks/useLive';
+import { useLive, useCompany, useCandidate } from '../../hooks/useLive';
 import { Spin, Result } from 'antd';
 
 export enum Steps {
@@ -25,6 +25,7 @@ export default function PreJoinScreens() {
 
   // preload company data
   useCompany();
+  useCandidate();
 
   const { user } = useAppState();
   const { getAudioAndVideoTracks } = useVideoContext();

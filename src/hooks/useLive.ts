@@ -26,3 +26,16 @@ export const useCompany = () => {
     isError: error,
   };
 };
+
+export const useCandidate = () => {
+  const { data: liveData } = useLive();
+  const { data, error } = useSWR(
+    liveData?.candidateEmail ? [`/v1/candidates/${liveData.candidateEmail}`] : null,
+    fetcher
+  );
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+};
