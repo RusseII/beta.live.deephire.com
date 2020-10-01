@@ -2,10 +2,10 @@ import React from 'react';
 import { makeStyles, Theme, Typography } from '@material-ui/core';
 import Swoosh from './swoosh';
 import VideoLogo from './VideoLogo';
-import TwilioLogo from './TwilioLogo';
 import { useAppState } from '../../state';
 import UserMenu from './UserMenu/UserMenu';
 import { useLocation } from 'react-router-dom';
+import { useCompany } from '../../hooks/useLive';
 
 const useStyles = makeStyles((theme: Theme) => ({
   background: {
@@ -54,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     position: 'absolute',
     width: '210px',
     textAlign: 'center',
+
     [theme.breakpoints.down('sm')]: {
       display: 'flex',
       alignItems: 'center',
@@ -61,7 +62,24 @@ const useStyles = makeStyles((theme: Theme) => ({
       textAlign: 'initial',
       '& svg': {
         height: '64px',
+        width: '94px',
       },
+    },
+  },
+  smallLogoContainer: {
+    position: 'relative',
+  },
+  brandLogo: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    margin: 'auto',
+    height: 'auto',
+    width: '152px',
+    [theme.breakpoints.down('sm')]: {
+      width: '50px',
     },
   },
   twilioLogo: {
@@ -100,19 +118,22 @@ interface IntroContainerProps {
 }
 
 const IntroContainer = (props: IntroContainerProps) => {
+  const { data } = useCompany();
   const classes = useStyles();
   const { user } = useAppState();
   const location = useLocation();
 
   return (
     <div className={classes.background}>
-      <TwilioLogo className={classes.twilioLogo} />
       {user && location.pathname !== '/login' && <UserMenu />}
       <div className={classes.container}>
         <div className={classes.innerContainer}>
           <div className={classes.swooshContainer}>
             <div className={classes.logoContainer}>
-              <VideoLogo />
+              <div className={classes.smallLogoContainer}>
+                <VideoLogo />
+                <img src={data?.logo} alt={data?.companyName} className={classes.brandLogo} />
+              </div>
               <Typography variant="h6" className={classes.title}>
                 Live Video Interviews
               </Typography>
