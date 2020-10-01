@@ -18,6 +18,8 @@ export enum Steps {
 interface ParamTypes {
   URLRoomName: string;
 }
+
+const defaultName = localStorage.getItem('name');
 export default function PreJoinScreens() {
   const { data, isLoading, isError } = useLive();
 
@@ -29,7 +31,7 @@ export default function PreJoinScreens() {
   const { URLRoomName } = useParams<ParamTypes>();
   const [step, setStep] = useState(Steps.roomNameStep);
 
-  const [name, setName] = useState<string>(user?.displayName || '');
+  const [name, setName] = useState<string>(user?.displayName || defaultName || '');
   const [roomName, setRoomName] = useState<string>('');
 
   const [mediaError, setMediaError] = useState<Error>();

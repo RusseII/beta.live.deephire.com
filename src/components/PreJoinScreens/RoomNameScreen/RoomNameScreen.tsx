@@ -48,6 +48,7 @@ export default function RoomNameScreen({
   const { user } = useAppState();
 
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    localStorage.setItem('name', event.target.value);
     setName(event.target.value);
   };
 
