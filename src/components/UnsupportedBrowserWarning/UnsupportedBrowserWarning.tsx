@@ -1,21 +1,7 @@
 import React from 'react';
 import Video from 'twilio-video';
-import { Container, Link, Paper, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Result, Typography } from 'antd';
 import { ChromeOutlined, AppleOutlined } from '@ant-design/icons';
-
-const useStyles = makeStyles({
-  container: {
-    marginTop: '2.5em',
-  },
-  paper: {
-    padding: '1em',
-  },
-  heading: {
-    marginBottom: '0.4em',
-  },
-});
 
 const showChromeBrowser = () => (
   <Result
