@@ -15,6 +15,7 @@ const Container = styled('aside')(({ theme }: { theme: Theme }) => ({
 
 const SideBar = () => {
   const { data } = useCandidate();
+
   return (
     <Container>
       <Documents candidateData={data}></Documents>
@@ -37,25 +38,34 @@ interface File {
 const Documents = ({ candidateData }: DocumentsProps) => {
   if (candidateData?.files.length < 2) {
     const [file] = candidateData?.files;
-    return <ShowFile url={`https://a.deephire.com/v1/candidates/${candidateData.email}/documents/${file.uid}`} />;
+    return (
+      <ShowFile
+        header={false}
+        url={`https://a.deephire.com/v1/candidates/${candidateData.email}/documents/${file.uid}`}
+      />
+    );
   }
   return (
-    <Tabs defaultActiveKey="0">
+    <Tabs style={{ padding: 24, color: 'white' }} defaultActiveKey="0">
       {candidateData.files.map((file: File, i: number) => (
         <TabPane tab={file.name} key={i.toLocaleString() + 1}>
-          <ShowFile url={`https://a.deephire.com/v1/candidates/${candidateData.email}/documents/${file.uid}`} />
+          <ShowFile
+            header={true}
+            url={`https://a.deephire.com/v1/candidates/${candidateData.email}/documents/${file.uid}`}
+          />
         </TabPane>
       ))}
     </Tabs>
   );
 };
-const ShowFile = ({ url }: any) => <IframeGoogleDoc url={url} />;
+const ShowFile = ({ url, header }: any) => <IframeGoogleDoc header={header} url={url} />;
 
 interface IframeGoogleDocsProps {
   url: string;
+  header: boolean;
 }
 
-export function IframeGoogleDoc({ url }: IframeGoogleDocsProps) {
+export function IframeGoogleDoc({ url, header }: IframeGoogleDocsProps) {
   const [iframeTimeoutId, setIframeTimeoutId] = useState<any>();
   const iframeRef: any = useRef(null);
 
@@ -84,7 +94,7 @@ export function IframeGoogleDoc({ url }: IframeGoogleDocsProps) {
       onLoad={iframeLoaded}
       onError={updateIframeSrc}
       ref={iframeRef}
-      style={{ width: '100%', height: 'calc(100vh - (72px))' }}
+      style={{ width: '100%', height: header ? 'calc(100vh - (72px + 24px + 46px + 12px))' : 'calc(100vh - (72px))' }}
       src={getIframeLink()}
     />
   );
