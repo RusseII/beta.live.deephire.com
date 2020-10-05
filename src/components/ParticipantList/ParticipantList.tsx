@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowY: 'auto',
       background: 'rgb(79, 83, 85)',
       zIndex: 5,
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         overflowY: 'initial',
         overflowX: 'auto',
         display: 'flex',
@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     noFiles: {
       gridArea: '1 / 2 / 1 / 3',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         gridArea: '2 / 1 / 3 / 3',
       },
     },
     files: {
       gridArea: '1 / 2 / 1 / 3',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         gridArea: '2 / 1 / 3 / 3',
       },
     },
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       background: 'transparent',
     },
     scrollContainer: {
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         display: 'flex',
       },
     },

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   fullWidth: {
     gridArea: '1 / 1 / 2 / 3',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down('lg')]: {
       gridArea: '1 / 1 / 3 / 3',
       // gridArea: '1 / 1 / 3 / 2',
     },

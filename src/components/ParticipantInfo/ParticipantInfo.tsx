@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       border: `${BORDER_SIZE}px solid rgb(245, 248, 255)`,
       paddingTop: `calc(${(9 / 16) * 100}% - ${BORDER_SIZE}px)`,
       background: 'black',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         height: theme.sidebarMobileHeight,
         width: `${(theme.sidebarMobileHeight * 16) / 9}px`,
         marginRight: '8px',
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
       left: 0,
       zIndex: 1,
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         '& svg': {
           transform: 'scale(0.7)',
         },
@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     typeography: {
       color: 'white',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('lg')]: {
         fontSize: '0.75rem',
       },
     },
