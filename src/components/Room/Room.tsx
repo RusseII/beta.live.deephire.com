@@ -21,9 +21,13 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   files: {
-    gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
+    gridTemplateColumns: `1fr ${theme.sidebarWidth}px 40vw`,
     gridTemplateRows: '100%',
     [theme.breakpoints.down('md')]: {
+      gridTemplateColumns: `1fr 0px 40vw`,
+      gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
+    },
+    [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: `100%`,
       gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
     },
@@ -32,19 +36,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Room() {
   const { data } = useCandidate();
-  // const files = data?.files;
+  const isDocuments = data?.files.length > 0;
   const classes = useStyles();
 
+  console.log({ isDocuments });
   return (
     <div
       className={clsx(classes.room, {
-        [classes.noFiles]: true,
-        [classes.files]: false,
+        [classes.noFiles]: !isDocuments,
+        [classes.files]: isDocuments,
       })}
     >
       <MainParticipant />
-      <ParticipantList />
-      {/* {files && <SideBar />} */}
+      <ParticipantList isDocuments={isDocuments} />
+      {isDocuments && <SideBar />}
     </div>
   );
 }

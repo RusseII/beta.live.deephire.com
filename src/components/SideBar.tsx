@@ -1,15 +1,24 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Tabs } from 'antd';
 import { useCandidate } from '../hooks/useLive';
+import { styled, Theme } from '@material-ui/core/styles';
 
 const { TabPane } = Tabs;
+
+const Container = styled('aside')(({ theme }: { theme: Theme }) => ({
+  background: 'rgb(79, 83, 85)',
+  gridArea: '1 / 3 / 3 / 4',
+  [theme.breakpoints.down('md')]: {
+    gridArea: '1 / 3 / 3 / 4',
+  },
+}));
 
 const SideBar = () => {
   const { data } = useCandidate();
   return (
-    <aside style={{ background: 'rgb(79, 83, 85)', gridArea: '1 / 1 / 1 / 2' }}>
+    <Container>
       <Documents candidateData={data}></Documents>
-    </aside>
+    </Container>
   );
 };
 interface DocumentsProps {

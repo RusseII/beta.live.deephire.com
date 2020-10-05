@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridArea: '1 / 1 / 2 / 3',
     [theme.breakpoints.down('md')]: {
       gridArea: '1 / 1 / 3 / 3',
+      // gridArea: '1 / 1 / 3 / 2',
     },
   },
   avatarContainer: {

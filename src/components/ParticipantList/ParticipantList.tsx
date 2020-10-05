@@ -14,14 +14,24 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '2em',
       overflowY: 'auto',
       background: 'rgb(79, 83, 85)',
-      gridArea: '1 / 2 / 1 / 3',
       zIndex: 5,
       [theme.breakpoints.down('md')]: {
-        gridArea: '2 / 1 / 3 / 3',
         overflowY: 'initial',
         overflowX: 'auto',
         display: 'flex',
         padding: '8px',
+      },
+    },
+    noFiles: {
+      gridArea: '1 / 2 / 1 / 3',
+      [theme.breakpoints.down('md')]: {
+        gridArea: '2 / 1 / 3 / 3',
+      },
+    },
+    files: {
+      gridArea: '1 / 2 / 1 / 3',
+      [theme.breakpoints.down('md')]: {
+        gridArea: '2 / 1 / 3 / 3',
       },
     },
     transparentBackground: {
@@ -35,7 +45,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function ParticipantList() {
+interface ParticipantListProps {
+  isDocuments: boolean;
+}
+export default function ParticipantList({ isDocuments }: ParticipantListProps) {
   const classes = useStyles();
   const {
     room: { localParticipant },
@@ -52,6 +65,8 @@ export default function ParticipantList() {
     <aside
       className={clsx(classes.container, {
         [classes.transparentBackground]: !isRemoteParticipantScreenSharing,
+        [classes.files]: !isDocuments,
+        [classes.noFiles]: isDocuments,
       })}
     >
       <div className={classes.scrollContainer}>

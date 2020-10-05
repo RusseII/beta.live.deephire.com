@@ -2,10 +2,10 @@
 
 exports[`the ParticipantList component should correctly render Participant components 1`] = `
 <aside
-  className="makeStyles-container-1 makeStyles-transparentBackground-2"
+  className="makeStyles-container-1 makeStyles-transparentBackground-4 makeStyles-files-3"
 >
   <div
-    className="makeStyles-scrollContainer-3"
+    className="makeStyles-scrollContainer-5"
   >
     <Participant
       isLocalParticipant={true}
