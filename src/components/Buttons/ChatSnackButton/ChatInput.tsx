@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import { Button, FormControl, TextField } from '@material-ui/core';
-import { useSnackbar } from 'notistack';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
+import { notification } from 'antd';
 
+const openNotification = (message: string) => {
+  notification.info({
+    message,
+    duration: 10,
+    placement: 'bottomRight',
+    bottom: 50,
+  });
+};
 export default function ChatInput() {
   const [message, setMessage] = useState('');
   const { room } = useVideoContext();
-  const { enqueueSnackbar } = useSnackbar();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value);
 
@@ -24,7 +31,7 @@ export default function ChatInput() {
       localDataTrackPublication.track.send(fullMessage);
 
       // Render the message locally so the local participant can see that their message was sent.
-      enqueueSnackbar(fullMessage);
+      openNotification(fullMessage);
 
       //Reset the text field
       setMessage('');
