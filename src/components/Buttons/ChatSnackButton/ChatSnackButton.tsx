@@ -19,7 +19,13 @@ export default function ChatSnackButton() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Popover content={<ChatInput setIsOpen={setIsOpen} />} trigger="click" visible={isOpen} onVisibleChange={setIsOpen}>
+    <Popover
+      destroyTooltipOnHide
+      content={<ChatInput setIsOpen={setIsOpen} />}
+      trigger="click"
+      visible={isOpen}
+      onVisibleChange={setIsOpen}
+    >
       <Button startIcon={<ChatIcon />}>Chat</Button>
     </Popover>
   );

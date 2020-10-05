@@ -7,7 +7,7 @@ interface ChatInputProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function ChatInput({ setIsOpen }: ChatInputProps) {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState<string>('');
   const { room } = useVideoContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => setMessage(e.target.value);
@@ -42,7 +42,7 @@ export default function ChatInput({ setIsOpen }: ChatInputProps) {
         <label htmlFor="chat-snack-input" style={{ color: 'black' }}>
           Say something:
         </label>
-        <TextField value={message} autoFocus={true} onChange={handleChange} id="chat-snack-input" size="small" />
+        <TextField value={message} autoFocus onChange={handleChange} id="chat-snack-input" size="small" />
       </FormControl>
       <Button type="submit" color="primary" variant="contained" style={{ marginLeft: '0.8em' }}>
         Send
