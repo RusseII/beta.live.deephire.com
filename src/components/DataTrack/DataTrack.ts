@@ -1,19 +1,10 @@
 import { useEffect } from 'react';
 import { DataTrack as IDataTrack } from 'twilio-video';
-import { notification } from 'antd';
-
-const openNotification = (message: string) => {
-  notification.info({
-    message,
-    duration: 10,
-    placement: 'bottomRight',
-    bottom: 50,
-  });
-};
+import { displayMessage } from '../Buttons/ChatSnackButton/ChatSnackButton';
 
 export default function DataTrack({ track }: { track: IDataTrack }) {
   useEffect(() => {
-    const handleMessage = (message: string) => openNotification(message);
+    const handleMessage = (message: string) => displayMessage(message);
     track.on('message', handleMessage);
     return () => {
       track.off('message', handleMessage);

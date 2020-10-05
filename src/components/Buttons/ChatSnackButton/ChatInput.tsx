@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 import { Button, FormControl, TextField } from '@material-ui/core';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
-import { notification } from 'antd';
+import { displayMessage } from './ChatSnackButton';
 
-const openNotification = (message: string) => {
-  notification.info({
-    message,
-    duration: 10,
-    placement: 'bottomRight',
-    bottom: 50,
-  });
-};
-export default function ChatInput() {
+interface ChatInputProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function ChatInput({ setIsOpen }: ChatInputProps) {
   const [message, setMessage] = useState('');
   const { room } = useVideoContext();
 
@@ -30,8 +25,11 @@ export default function ChatInput() {
       // Send the message
       localDataTrackPublication.track.send(fullMessage);
 
+      // close the sending msg popover
+      setIsOpen(false);
+
       // Render the message locally so the local participant can see that their message was sent.
-      openNotification(fullMessage);
+      displayMessage(fullMessage);
 
       //Reset the text field
       setMessage('');

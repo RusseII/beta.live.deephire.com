@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
 import ChatIcon from '@material-ui/icons/CommentOutlined';
 import ChatInput from './ChatInput';
-import { Button, ClickAwayListener, Tooltip, withStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import { Popover, notification } from 'antd';
+import { isMobile } from '../../../utils';
 
-const LightTooltip = withStyles({
-  tooltip: {
-    backgroundColor: '#fafafa',
-  },
-  arrow: {
-    color: '#fafafa',
-  },
-})(Tooltip);
+export const displayMessage = (message: string) => {
+  const bottom = isMobile ? 162 : 50;
+  notification.info({
+    message,
+    duration: 10,
+    placement: 'bottomRight',
+    bottom,
+  });
+};
 
 export default function ChatSnackButton() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <ClickAwayListener onClickAway={() => setIsOpen(false)}>
-      <LightTooltip title={<ChatInput />} interactive placement="top" arrow={true} open={isOpen}>
-        <Button onClick={() => setIsOpen(isOpen => !isOpen)} startIcon={<ChatIcon />}>
-          Chat
-        </Button>
-      </LightTooltip>
-    </ClickAwayListener>
+    <Popover content={<ChatInput setIsOpen={setIsOpen} />} trigger="click" visible={isOpen} onVisibleChange={setIsOpen}>
+      <Button startIcon={<ChatIcon />}>Chat</Button>
+    </Popover>
   );
 }
