@@ -13,7 +13,8 @@ import useTrack from '../../hooks/useTrack/useTrack';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting';
 import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator';
-
+import RecordingIndicator from './RecordingIndicator';
+import { useLive } from '../../hooks/useLive';
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     position: 'relative',
@@ -78,6 +79,7 @@ interface MainParticipantInfoProps {
 }
 
 export default function MainParticipantInfo({ participant, children }: MainParticipantInfoProps) {
+  const { data } = useLive();
   const classes = useStyles();
   const {
     room: { localParticipant },
@@ -116,6 +118,7 @@ export default function MainParticipantInfo({ participant, children }: MainParti
             {isLocal && ' (You)'}
             {screenSharePublication && ' - Screen'}
           </Typography>
+          {data?.recording !== false && <RecordingIndicator />}
         </div>
       </div>
       {(!isVideoEnabled || isVideoSwitchedOff) && (
