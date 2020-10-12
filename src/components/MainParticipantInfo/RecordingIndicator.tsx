@@ -35,11 +35,9 @@ const Timer = ({ style }: any) => {
 
   const [time, setTime] = useState(0);
 
-  const timer = setTimeout(function() {
+  setTimeout(function() {
     setTime(time - 1);
   }, 2000);
-
-  const transformTime = (time: any) => new Date(time * 1000).toISOString().substr(14, 5);
 
   return (
     <span style={style} className={styles.timer}>
