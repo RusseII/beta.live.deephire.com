@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import MainParticipant from '../MainParticipant/MainParticipant';
 import SideBar from '../SideBar';
 import { useCandidate } from '../../hooks/useLive';
-
+import Notes from '../Notes';
 const useStyles = makeStyles((theme: Theme) => ({
   room: {
     position: 'relative',
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateRows: '100%',
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: `1fr 0px 40vw`,
-      gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
+      gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
     },
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: `100%`,
@@ -48,6 +48,7 @@ export default function Room() {
       })}
     >
       <MainParticipant />
+      <Notes />
       <ParticipantList isDocuments={isDocuments} />
       {isDocuments && <SideBar />}
     </div>

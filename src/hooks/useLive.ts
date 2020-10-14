@@ -5,7 +5,33 @@ import { useParams } from 'react-router-dom';
 interface ParamTypes {
   URLRoomName: string;
 }
-export const useLive = () => {
+
+interface LiveTypes {
+  data: Data;
+  isLoading: boolean;
+  isError: boolean;
+}
+
+interface Data {
+  _id: string;
+  interviewType: 'recruiter' | 'client';
+  candidateName: string;
+  candidateEmail: string;
+  interviewTime?: string[] | null;
+  jobName?: string;
+  phone?: string;
+  recruiterTemplate?: string;
+  createdBy: string;
+  companyId: string;
+  roomName: string;
+  interviewLink: string;
+  companyName: string;
+  recruiterName: string;
+  timestamp: string;
+  clientTemplate?: string;
+  recording: boolean;
+}
+export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
 
   const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher);
