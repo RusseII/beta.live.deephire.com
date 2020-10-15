@@ -21,7 +21,7 @@ const createRoom = async (roomName: string | string[]) => {
       const room = await client.video.rooms.create({
         recordParticipantsOnConnect: true,
         statusCallback: 'https://a.deephire.com/v1/live/events',
-        type: 'group-small',
+        type: 'group',
         uniqueName: roomName,
       });
       console.log('room created', room);
@@ -32,9 +32,9 @@ interface QueryInterface {
   roomName: string;
   identity: string;
 }
-export default (request: NowRequest, response: NowResponse) => {
+export default async (request: NowRequest, response: NowResponse) => {
   const { identity, roomName } = request.query
-  createRoom(roomName);
+  await createRoom(roomName);
   const token = new AccessToken(twilioAccountSid, twilioApiKeySID, twilioApiKeySecret, {
     ttl: MAX_ALLOWED_SESSION_DURATION,
   });
