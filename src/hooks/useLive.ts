@@ -1,6 +1,8 @@
 import useSWR from 'swr';
-import fetcher from '../fetcher';
+import fetcher, { putter } from '../fetcher';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import useVideoContext from './useVideoContext/useVideoContext';
 
 interface ParamTypes {
   URLRoomName: string;
@@ -65,3 +67,20 @@ export const useCandidate = () => {
     isError: error,
   };
 };
+
+// export const useNotes = () => {
+//   const { data: liveData } = useLive();
+//   const {
+//     room: { localParticipant },
+//   } = useVideoContext();
+//   const { identity } = localParticipant
+//   const [ notes, setNotes ] = useState('')
+//   console.log({notes})
+//   const { data, error } = useSWR(liveData  && notes? [`/v1/live/${liveData._id}`, notes] : null, (url) => putter(url, {[identity]: notes}), { refreshInterval: 1000 });
+//   return {
+//     setNotes,
+//     data,
+//     isLoading: !error && !data,
+//     isError: error,
+//   };
+// };

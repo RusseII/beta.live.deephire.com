@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLive } from '../hooks/useLive';
@@ -10,25 +10,48 @@ const Quill = styled(ReactQuill)(({ theme }: { theme: Theme }) => ({
   height: '100%',
   width: '100%',
   backgroundColor: 'white',
-  gridArea: '3 / 1 / 4 / 3',
+  gridArea: '3 / 2 / 4 / 4',
 }));
 
 const Notes = () => {
+  const [notes, setNotes] = useState('');
   const { data } = useLive();
   const { role } = useContext(GlobalStateContext);
-
-  const startingCandidateNotes = data.interviewType === 'client' ? data.recruiterTemplate : undefined;
+  const isSendOut = data.interviewType === 'client';
+  const startingCandidateNotes = isSendOut ? data.recruiterTemplate : undefined;
 
   if (role === 'client') {
-    return <Quill defaultValue={data.clientTemplate} placeholder="Notes for the interview" />;
+    return (
+      <Quill
+        onChange={setNotes}
+        key="client"
+        defaultValue={data.clientTemplate}
+        placeholder="Notes for the interview1"
+      />
+    );
   }
 
   if (role === 'recruiter') {
-    return <Quill defaultValue={data.recruiterTemplate} placeholder="Notes for the interview" />;
+    return (
+      <Quill
+        onChange={setNotes}
+        key="recruiter"
+        readOnly={isSendOut}
+        defaultValue={data.recruiterTemplate}
+        placeholder="Notes for the interview2"
+      />
+    );
   }
 
   if (role === 'candidate') {
-    return <Quill defaultValue={startingCandidateNotes} placeholder="Notes for the interview" />;
+    return (
+      <Quill
+        onChange={setNotes}
+        key="candidate"
+        defaultValue={startingCandidateNotes}
+        placeholder="Notes for the interview3"
+      />
+    );
   }
   return null;
 };

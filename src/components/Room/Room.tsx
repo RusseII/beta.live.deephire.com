@@ -6,6 +6,7 @@ import MainParticipant from '../MainParticipant/MainParticipant';
 import SideBar from '../SideBar';
 import { useCandidate } from '../../hooks/useLive';
 import Notes from '../Notes';
+import InterviewInfo from '../InterviewInfo';
 const useStyles = makeStyles((theme: Theme) => ({
   room: {
     position: 'relative',
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     gridTemplateColumns: `1fr ${theme.sidebarWidth}px 40vw`,
     gridTemplateRows: '100%',
     [theme.breakpoints.down('lg')]: {
-      gridTemplateColumns: `1fr 0px 40vw`,
+      gridTemplateColumns: `200px 1fr 0px 40vw`,
       gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
     },
     [theme.breakpoints.down('xs')]: {
@@ -48,6 +49,7 @@ export default function Room() {
       })}
     >
       <MainParticipant />
+      <InterviewInfo />
       <Notes />
       <ParticipantList isDocuments={isDocuments} />
       {isDocuments && <SideBar />}

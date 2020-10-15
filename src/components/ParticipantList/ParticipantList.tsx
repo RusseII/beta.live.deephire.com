@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
     noFiles: {
       gridArea: '1 / 2 / 1 / 3',
       [theme.breakpoints.down('lg')]: {
-        gridArea: '2 / 1 / 3 / 3',
+        gridArea: '2 / 1 / 3 / 4',
       },
     },
     files: {
