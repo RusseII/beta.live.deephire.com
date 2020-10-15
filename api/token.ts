@@ -32,9 +32,9 @@ interface QueryInterface {
   roomName: string;
   identity: string;
 }
-export default async (request: NowRequest, response: NowResponse) => {
+export default  (request: NowRequest, response: NowResponse) => {
   const { identity, roomName } = request.query
-  await createRoom(roomName);
+   createRoom(roomName);
   const token = new AccessToken(twilioAccountSid, twilioApiKeySID, twilioApiKeySecret, {
     ttl: MAX_ALLOWED_SESSION_DURATION,
   });
