@@ -40,7 +40,6 @@ export default function Room() {
   const isDocuments = data?.files.length > 0;
   const classes = useStyles();
 
-  console.log({ isDocuments });
   return (
     <div
       className={clsx(classes.room, {
