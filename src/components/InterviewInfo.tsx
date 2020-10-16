@@ -10,6 +10,7 @@ const { Countdown } = Statistic;
 
 const Container = styled(Card)(({ theme }: { theme: Theme }) => ({
   gridArea: '3 / 1 / 4 / 2',
+  overflow: 'auto',
 }));
 
 const CountDownContainer = ({ children }: any) => {
