@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useLive } from '../hooks/useLive';
+import { useLive, useParticipant } from '../hooks/useLive';
+
 import { GlobalStateContext } from '../state/GlobalState';
 
 import { styled, Theme } from '@material-ui/core/styles';
@@ -19,6 +20,7 @@ const Notes = () => {
   const { role } = useContext(GlobalStateContext);
   const isSendOut = data.interviewType === 'client';
   const startingCandidateNotes = isSendOut ? data.recruiterTemplate : undefined;
+  useParticipant(notes);
 
   if (role === 'client') {
     return (

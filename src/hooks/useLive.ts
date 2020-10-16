@@ -1,8 +1,9 @@
 import useSWR from 'swr';
 import fetcher, { putter } from '../fetcher';
 import { useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import useVideoContext from './useVideoContext/useVideoContext';
+import { GlobalStateContext } from '../state/GlobalState';
 
 interface ParamTypes {
   URLRoomName: string;
@@ -68,19 +69,34 @@ export const useCandidate = () => {
   };
 };
 
-// export const useNotes = () => {
-//   const { data: liveData } = useLive();
-//   const {
-//     room: { localParticipant },
-//   } = useVideoContext();
-//   const { identity } = localParticipant
-//   const [ notes, setNotes ] = useState('')
-//   console.log({notes})
-//   const { data, error } = useSWR(liveData  && notes? [`/v1/live/${liveData._id}`, notes] : null, (url) => putter(url, {[identity]: notes}), { refreshInterval: 1000 });
-//   return {
-//     setNotes,
-//     data,
-//     isLoading: !error && !data,
-//     isError: error,
-//   };
-// };
+interface Participant {
+  participantName: string;
+  role: 'candidate' | 'recruiter' | 'client';
+  notes: string;
+}
+export const useParticipant = (notes: string) => {
+  const { URLRoomName } = useParams<ParamTypes>();
+  const { role } = useContext(GlobalStateContext);
+  const [shouldRun, setShouldRun] = useState(true);
+  const {
+    room: { localParticipant },
+  } = useVideoContext();
+
+  useEffect(() => {
+    if (shouldRun) {
+      console.log(notes);
+      const { identity: participantName } = localParticipant;
+      const participant: Participant = {
+        participantName,
+        role,
+        notes,
+      };
+      putter(`/v1/live/${URLRoomName}/participants`, participant);
+      setShouldRun(false);
+    }
+  }, [URLRoomName, localParticipant, notes, role, shouldRun]);
+
+  useEffect(() => {
+    setInterval(() => setShouldRun(true), 5000);
+  }, []);
+};

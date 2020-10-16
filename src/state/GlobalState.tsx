@@ -1,7 +1,7 @@
 import React, { createContext, useState } from 'react';
 
 interface GlobalStateContextType {
-  role: 'candidate' | 'recruiter' | 'client' | null;
+  role: 'candidate' | 'recruiter' | 'client';
   setRole: React.Dispatch<React.SetStateAction<GlobalStateContextType['role']>>;
 }
 
@@ -9,13 +9,11 @@ export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
 
 const GlobalStateProvider = ({ children }: any) => {
   const { search } = window.location;
-  const startingRole = search.includes('role=candidate')
-    ? 'candidate'
-    : search.includes('role=recruiter')
+  const startingRole = search.includes('role=recruiter')
     ? 'recruiter'
     : search.includes('role=client')
     ? 'client'
-    : null;
+    : 'candidate';
 
   const [role, setRole] = useState<GlobalStateContextType['role']>(startingRole);
 

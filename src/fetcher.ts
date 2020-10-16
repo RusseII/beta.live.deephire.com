@@ -17,7 +17,6 @@ export const putter = async (url: string, data: any) => {
   if (!res.ok) {
     throw new Error('Error status code');
   }
-  return res.json();
 };
 
 export default fetcher;
