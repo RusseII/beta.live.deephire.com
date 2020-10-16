@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
 import useVideoContext from './useVideoContext/useVideoContext';
 import { GlobalStateContext } from '../state/GlobalState';
+import { dark } from '@material-ui/core/styles/createPalette';
 
 interface ParamTypes {
   URLRoomName: string;
@@ -33,11 +34,12 @@ interface Data {
   timestamp: string;
   clientTemplate?: string;
   recording: boolean;
+  participants: any;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
 
-  const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher);
+  const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher, { refreshInterval: 1000 });
 
   return {
     data,
@@ -75,16 +77,17 @@ interface Participant {
   notes: string;
 }
 export const useParticipant = (notes: string) => {
+  const { data: liveData } = useLive();
   const { URLRoomName } = useParams<ParamTypes>();
   const { role } = useContext(GlobalStateContext);
+  const prepRoomRecruiter = role === 'recruiter' && liveData.interviewType === 'client';
   const [shouldRun, setShouldRun] = useState(true);
   const {
     room: { localParticipant },
   } = useVideoContext();
 
   useEffect(() => {
-    if (shouldRun) {
-      console.log(notes);
+    if (shouldRun && !prepRoomRecruiter) {
       const { identity: participantName } = localParticipant;
       const participant: Participant = {
         participantName,
@@ -94,7 +97,7 @@ export const useParticipant = (notes: string) => {
       putter(`/v1/live/${URLRoomName}/participants`, participant);
       setShouldRun(false);
     }
-  }, [URLRoomName, localParticipant, notes, role, shouldRun]);
+  }, [URLRoomName, localParticipant, notes, prepRoomRecruiter, role, shouldRun]);
 
   useEffect(() => {
     setInterval(() => setShouldRun(true), 5000);
