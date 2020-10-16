@@ -8,7 +8,16 @@ interface GlobalStateContextType {
 export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
 
 const GlobalStateProvider = ({ children }: any) => {
-  const [role, setRole] = useState<GlobalStateContextType['role']>(null);
+  const { search } = window.location;
+  const startingRole = search.includes('role=candidate')
+    ? 'candidate'
+    : search.includes('role=recruiter')
+    ? 'recruiter'
+    : search.includes('role=client')
+    ? 'client'
+    : null;
+
+  const [role, setRole] = useState<GlobalStateContextType['role']>(startingRole);
 
   return <GlobalStateContext.Provider value={{ role, setRole }}>{children}</GlobalStateContext.Provider>;
 };
