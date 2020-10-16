@@ -4,18 +4,31 @@ import { GlobalStateContext } from '../state/GlobalState';
 
 import { styled, Theme } from '@material-ui/core/styles';
 import { Card, Typography } from 'antd';
+import { Statistic } from 'antd';
+
+const { Countdown } = Statistic;
 
 const Container = styled(Card)(({ theme }: { theme: Theme }) => ({
   gridArea: '3 / 1 / 4 / 2',
 }));
 
+const CountDownContainer = ({ children }: any) => {
+  const { data } = useLive();
+  const startTime = data?.interviewTime?.[0];
+  return (
+    <Container>
+      {startTime && <Countdown style={{ marginBottom: 8 }} title="Interview Starts In" value={startTime} />}
+      {children}
+    </Container>
+  );
+};
 const Notes = () => {
   const { data } = useLive();
   const { role } = useContext(GlobalStateContext);
 
   if (role === 'client') {
     return (
-      <Container>
+      <CountDownContainer>
         <>
           <Typography.Text strong>Candidate Name:</Typography.Text>
           <Typography.Paragraph>{data.candidateName}</Typography.Paragraph>
@@ -27,32 +40,32 @@ const Notes = () => {
             <Typography.Paragraph>{data.jobName}</Typography.Paragraph>
           </>
         )}
-      </Container>
+      </CountDownContainer>
     );
   }
 
   if (role === 'recruiter') {
     return (
-      <Container>
+      <CountDownContainer>
         {displayItem(data.candidateName, 'Candidate Name:')}
         {displayItem(data.jobName, 'Job Name:')}
-      </Container>
+      </CountDownContainer>
     );
   }
 
   if (role === 'candidate') {
     return (
-      <Container>
+      <CountDownContainer>
         {displayItem(data.recruiterName, 'Recruiter:')}
         {displayItem(data.jobName, 'Job Name:')}
-      </Container>
+      </CountDownContainer>
     );
   }
   return (
-    <Container>
+    <CountDownContainer>
       <div>Demo:</div>
       <div>Candidate Name:</div>
-    </Container>
+    </CountDownContainer>
   );
 };
 

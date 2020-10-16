@@ -38,7 +38,7 @@ const Notes = () => {
         key="recruiter"
         readOnly={isSendOut}
         defaultValue={data.recruiterTemplate}
-        placeholder="Notes for the interview2"
+        placeholder={isSendOut ? 'This field is only editable by the candidate' : 'Notes for the interview2'}
       />
     );
   }
