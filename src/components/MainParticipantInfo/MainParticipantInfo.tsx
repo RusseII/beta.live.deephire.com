@@ -50,11 +50,10 @@ const useStyles = makeStyles((theme: Theme) => ({
     zIndex: 1,
   },
   fullWidth: {
-    gridArea: '1 / 1 / 2 / 3',
-    [theme.breakpoints.down('lg')]: {
-      gridArea: '1 / 1 / 3 / 4',
-      // gridArea: '1 / 1 / 3 / 2',
-    },
+    gridArea: '1 / 1 / 3 / 2',
+    // [theme.breakpoints.down('lg')]: {
+    //   gridArea: '1 / 1 / 3 / 2',
+    // },
   },
   avatarContainer: {
     display: 'flex',

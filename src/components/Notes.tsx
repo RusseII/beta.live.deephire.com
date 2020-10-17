@@ -11,7 +11,7 @@ import { Select } from 'antd';
 
 const Area = styled('div')(({ theme }: { theme: Theme }) => ({
   backgroundColor: 'white',
-  gridArea: '3 / 2 / 4 / 4',
+  // gridArea: '3 / 2 / 4 / 4',
 }));
 const Quill = styled(ReactQuill)(({ theme }: { theme: Theme }) => ({
   height: '100%',
@@ -36,7 +36,7 @@ const Notes = () => {
   const prepRoomRecruiter = role === 'recruiter' && data.interviewType === 'client';
 
   useParticipant(notes);
-  const activeCandidates = Object.keys(data?.participants)
+  const activeCandidates = Object.keys(data?.participants || {})
     .map(key => ({ name: key, ...data.participants[key] }))
     .filter(participant => participant.role === 'candidate');
 

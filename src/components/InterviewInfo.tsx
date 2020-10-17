@@ -9,7 +9,8 @@ import { Statistic } from 'antd';
 const { Countdown } = Statistic;
 
 const Container = styled(Card)(({ theme }: { theme: Theme }) => ({
-  gridArea: '3 / 1 / 4 / 2',
+  // gridArea: '3 / 1 / 4 / 2',
+  height: '100%',
   overflow: 'auto',
 }));
 

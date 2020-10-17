@@ -8,10 +8,10 @@ const { TabPane } = Tabs;
 
 const Container = styled('aside')(({ theme }: { theme: Theme }) => ({
   background: 'rgb(79, 83, 85)',
-  gridArea: '1 / 3 / 3 / 4',
-  [theme.breakpoints.down('lg')]: {
-    gridArea: '1 / 4 / 3 / 5',
-  },
+  gridArea: '1 / 2 / 3 / 3',
+  // [theme.breakpoints.down('lg')]: {
+  //   gridArea: '1 / 2 / 3 / 3',
+  // },
 }));
 
 const SideBar = () => {

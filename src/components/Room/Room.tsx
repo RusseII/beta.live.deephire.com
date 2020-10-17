@@ -7,6 +7,7 @@ import SideBar from '../SideBar';
 import { useCandidate } from '../../hooks/useLive';
 import Notes from '../Notes';
 import InterviewInfo from '../InterviewInfo';
+import { Row, Col } from 'antd';
 const useStyles = makeStyles((theme: Theme) => ({
   room: {
     position: 'relative',
@@ -15,29 +16,36 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   noFiles: {
     gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
-    gridTemplateRows: '100%',
+    gridTemplateRows: '100% 30vh',
     [theme.breakpoints.down('lg')]: {
       gridTemplateColumns: `100%`,
       gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
     },
   },
   files: {
-    gridTemplateColumns: `1fr ${theme.sidebarWidth}px 40vw`,
-    gridTemplateRows: '100%',
-    [theme.breakpoints.down('lg')]: {
-      gridTemplateColumns: `200px 1fr 0px 40vw`,
-      gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
-    },
+    gridTemplateColumns: `1fr 40vw`,
+    gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 30vh`,
+    // [theme.breakpoints.down('lg')]: {
+    //   gridTemplateColumns: `1fr 40vw`,
+    //   gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
+    // },
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: `100%`,
       gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
     },
+  },
+  notesContainer: {
+    gridArea: '3  / 1 / 4 / 2',
+    // [theme.breakpoints.down('lg')]: {
+    // gridArea: '3  / 1 / 4 / 2',
+    // }
   },
 }));
 
 export default function Room() {
   const { data } = useCandidate();
   const isDocuments = data?.files.length > 0;
+  // const isDocuments = false
   const classes = useStyles();
 
   return (
@@ -48,10 +56,23 @@ export default function Room() {
       })}
     >
       <MainParticipant />
-      <InterviewInfo />
-      <Notes />
+      <BottomNotesSection />
       <ParticipantList isDocuments={isDocuments} />
       {isDocuments && <SideBar />}
     </div>
   );
 }
+
+const BottomNotesSection = () => {
+  const classes = useStyles();
+  return (
+    <Row className={clsx(classes.notesContainer)}>
+      <Col span={8}>
+        <InterviewInfo />
+      </Col>
+      <Col span={16}>
+        <Notes />
+      </Col>
+    </Row>
+  );
+};
