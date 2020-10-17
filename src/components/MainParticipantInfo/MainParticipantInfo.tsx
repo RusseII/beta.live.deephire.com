@@ -49,12 +49,16 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: 'rgba(40, 42, 43, 0.75)',
     zIndex: 1,
   },
-  fullWidth: {
+  fullWidthWithDocuments: {
     gridArea: '1 / 1 / 3 / 2',
     // [theme.breakpoints.down('lg')]: {
     //   gridArea: '1 / 1 / 3 / 2',
     // },
   },
+  fullWidth: {
+    gridArea: '1 / 1 / 2 / 3',
+  },
+
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -75,9 +79,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface MainParticipantInfoProps {
   participant: Participant;
   children: React.ReactNode;
+  isDocuments: boolean;
 }
 
-export default function MainParticipantInfo({ participant, children }: MainParticipantInfoProps) {
+export default function MainParticipantInfo({ participant, children, isDocuments }: MainParticipantInfoProps) {
   const { data } = useLive();
   const classes = useStyles();
   const {
@@ -106,7 +111,8 @@ export default function MainParticipantInfo({ participant, children }: MainParti
       data-cy-main-participant
       data-cy-participant={participant.identity}
       className={clsx(classes.container, {
-        [classes.fullWidth]: !isRemoteParticipantScreenSharing,
+        [classes.fullWidthWithDocuments]: !isRemoteParticipantScreenSharing,
+        [classes.fullWidth]: !isDocuments,
       })}
     >
       <div className={classes.infoContainer}>

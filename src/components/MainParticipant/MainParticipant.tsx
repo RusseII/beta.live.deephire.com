@@ -6,7 +6,7 @@ import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useS
 import useScreenShareParticipant from '../../hooks/useScreenShareParticipant/useScreenShareParticipant';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 
-export default function MainParticipant() {
+export default function MainParticipant({ isDocuments }: any) {
   const mainParticipant = useMainParticipant();
   const {
     room: { localParticipant },
@@ -23,7 +23,7 @@ export default function MainParticipant() {
   return (
     /* audio is disabled for this participant component because this participant's audio 
        is already being rendered in the <ParticipantStrip /> component.  */
-    <MainParticipantInfo participant={mainParticipant}>
+    <MainParticipantInfo isDocuments={isDocuments} participant={mainParticipant}>
       <ParticipantTracks
         participant={mainParticipant}
         videoOnly

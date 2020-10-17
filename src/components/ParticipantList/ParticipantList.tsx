@@ -23,25 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '8px',
     },
     noFiles: {
-      // gridArea: '1 / 2 / 1 / 3',
-      // [theme.breakpoints.down('lg')]: {
-      //   gridArea: '2 / 1 / 3 / 4',
-      // },
+      gridArea: '1 / 2 / 2 / 3',
     },
     files: {
       gridArea: '2 / 1 / 3 / 2',
-
-      // [theme.breakpoints.down('lg')]: {
-      //   gridArea: '2 / 1 / 3 / 2',
-      // },
     },
     transparentBackground: {
       background: 'transparent',
     },
     scrollContainer: {
-      // [theme.breakpoints.down('lg')]: {
       display: 'flex',
-      // },
     },
   })
 );
@@ -71,7 +62,7 @@ export default function ParticipantList({ isDocuments }: ParticipantListProps) {
         [classes.filesContainer]: isDocuments,
       })}
     >
-      <div className={classes.scrollContainer}>
+      <div className={clsx({ [classes.scrollContainer]: isDocuments })}>
         <Participant isDocuments={isDocuments} participant={localParticipant} isLocalParticipant={true} />
         {participants.map(participant => {
           const isSelected = participant === selectedParticipant;

@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   noFiles: {
     gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
-    gridTemplateRows: '100% 30vh',
-    [theme.breakpoints.down('lg')]: {
-      gridTemplateColumns: `100%`,
-      gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
-    },
+    gridTemplateRows: '1fr 30vh',
+    // [theme.breakpoints.down('lg')]: {
+    //   gridTemplateColumns: `100%`,
+    //   gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
+    // },
   },
   files: {
     gridTemplateColumns: `1fr 40vw`,
@@ -34,18 +34,17 @@ const useStyles = makeStyles((theme: Theme) => ({
       gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
     },
   },
+  documentsNotesContainer: {
+    gridArea: '3 / 1 / 4 / 2',
+  },
   notesContainer: {
-    gridArea: '3  / 1 / 4 / 2',
-    // [theme.breakpoints.down('lg')]: {
-    // gridArea: '3  / 1 / 4 / 2',
-    // }
+    gridArea: '2 / 1 / 3 / 3',
   },
 }));
 
 export default function Room() {
   const { data } = useCandidate();
   const isDocuments = data?.files.length > 0;
-  // const isDocuments = false
   const classes = useStyles();
 
   return (
@@ -55,18 +54,23 @@ export default function Room() {
         [classes.files]: isDocuments,
       })}
     >
-      <MainParticipant />
-      <BottomNotesSection />
+      <MainParticipant isDocuments={isDocuments} />
+      <BottomNotesSection isDocuments={isDocuments} />
       <ParticipantList isDocuments={isDocuments} />
       {isDocuments && <SideBar />}
     </div>
   );
 }
 
-const BottomNotesSection = () => {
+const BottomNotesSection = ({ isDocuments }: any) => {
   const classes = useStyles();
   return (
-    <Row className={clsx(classes.notesContainer)}>
+    <Row
+      className={clsx({
+        [classes.notesContainer]: !isDocuments,
+        [classes.documentsNotesContainer]: isDocuments,
+      })}
+    >
       <Col span={8}>
         <InterviewInfo />
       </Col>
