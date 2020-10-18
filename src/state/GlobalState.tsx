@@ -8,6 +8,8 @@ interface GlobalStateContextType {
   setNotes: React.Dispatch<React.SetStateAction<string>>;
   feedbackScreen: boolean;
   setFeedbackScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  connectedName: string;
+  setConnectedName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
@@ -23,11 +25,22 @@ const GlobalStateProvider = ({ children }: any) => {
   const [role, setRole] = useState<GlobalStateContextType['role']>(startingRole);
   const [baseRole] = useState<GlobalStateContextType['role']>(startingRole);
   const [notes, setNotes] = useState<string>('');
-  const [feedbackScreen, setFeedbackScreen] = useState<boolean>(false);
+  const [feedbackScreen, setFeedbackScreen] = useState<boolean>(true);
+  const [connectedName, setConnectedName] = useState<string>('demo');
 
   return (
     <GlobalStateContext.Provider
-      value={{ role, setRole, startingRole: baseRole, notes, setNotes, feedbackScreen, setFeedbackScreen }}
+      value={{
+        role,
+        setRole,
+        startingRole: baseRole,
+        notes,
+        setNotes,
+        feedbackScreen,
+        setFeedbackScreen,
+        connectedName,
+        setConnectedName,
+      }}
     >
       {children}
     </GlobalStateContext.Provider>

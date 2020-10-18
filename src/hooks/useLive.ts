@@ -74,11 +74,12 @@ interface Participant {
   participantName: string;
   role: 'candidate' | 'recruiter' | 'client';
   notes: string;
+  feedback?: string;
 }
-export const useParticipant = (notes: string) => {
+export const useParticipant = (notes: string, feedback?: string) => {
   const { data: liveData } = useLive();
   const { URLRoomName } = useParams<ParamTypes>();
-  const { startingRole } = useContext(GlobalStateContext);
+  const { startingRole, connectedName } = useContext(GlobalStateContext);
   const prepRoomRecruiter = startingRole === 'recruiter' && liveData.interviewType === 'client';
   const [shouldRun, setShouldRun] = useState(true);
   const {
@@ -87,18 +88,22 @@ export const useParticipant = (notes: string) => {
 
   useEffect(() => {
     if (shouldRun && !prepRoomRecruiter) {
-      const { identity: participantName } = localParticipant;
+      const { identity: participantName } = localParticipant || { identity: connectedName };
+      //TODO check to see if we can access identiy here when disconnected from the room.
+      // make sure if we send feedback, that we don't override the feeback is already there
+      // id like to use this method on the feedback screen if possible.
       const participant: Participant = {
         participantName,
         role: startingRole,
         notes,
+        // feedback,
       };
       putter(`/v1/live/${URLRoomName}/participants`, participant);
       setShouldRun(false);
     }
-  }, [URLRoomName, localParticipant, notes, prepRoomRecruiter, shouldRun, startingRole]);
+  }, [URLRoomName, connectedName, feedback, localParticipant, notes, prepRoomRecruiter, shouldRun, startingRole]);
 
   useEffect(() => {
-    setInterval(() => setShouldRun(true), 5000);
+    setInterval(() => setShouldRun(true), 3000);
   }, []);
 };
