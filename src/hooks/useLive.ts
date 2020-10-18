@@ -34,11 +34,16 @@ interface Data {
   clientTemplate?: string;
   recording: boolean;
   participants: any;
+  clientContactName?: string;
+  clientContactEmail?: string;
+  followUpTime?: any;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
 
-  const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher, { refreshInterval: 1000 });
+  const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher, {
+    refreshInterval: 100000,
+  });
 
   return {
     data,
@@ -74,9 +79,9 @@ interface Participant {
   participantName: string;
   role: 'candidate' | 'recruiter' | 'client';
   notes: string;
-  feedback?: string;
+  feedback?: number;
 }
-export const useParticipant = (notes: string, feedback?: string) => {
+export const useParticipant = (notes: string, feedback?: number) => {
   const { data: liveData } = useLive();
   const { URLRoomName } = useParams<ParamTypes>();
   const { startingRole, connectedName } = useContext(GlobalStateContext);
@@ -96,14 +101,19 @@ export const useParticipant = (notes: string, feedback?: string) => {
         participantName,
         role: startingRole,
         notes,
-        // feedback,
+        feedback,
       };
+      console.log('go');
       putter(`/v1/live/${URLRoomName}/participants`, participant);
       setShouldRun(false);
     }
   }, [URLRoomName, connectedName, feedback, localParticipant, notes, prepRoomRecruiter, shouldRun, startingRole]);
 
   useEffect(() => {
-    setInterval(() => setShouldRun(true), 3000);
+    setShouldRun(true);
+  }, [feedback]);
+
+  useEffect(() => {
+    setInterval(() => setShouldRun(true), 300000);
   }, []);
 };
