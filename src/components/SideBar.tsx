@@ -8,7 +8,7 @@ const { TabPane } = Tabs;
 
 const Container = styled('aside')(({ theme }: { theme: Theme }) => ({
   background: 'rgb(79, 83, 85)',
-  gridArea: '1 / 2 / 3 / 3',
+  gridArea: '1 / 2 / 4 / 3',
   // [theme.breakpoints.down('lg')]: {
   //   gridArea: '1 / 2 / 3 / 3',
   // },

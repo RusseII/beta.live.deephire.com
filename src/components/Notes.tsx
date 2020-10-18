@@ -26,11 +26,16 @@ const Notes = () => {
 
   const { data } = useLive();
   const startingNotes = data?.participants?.[localParticipant.identity]?.notes;
-  const [notes, setNotes] = useState(startingNotes);
 
-  const { role } = useContext(GlobalStateContext);
+  const { role, notes, setNotes } = useContext(GlobalStateContext);
   const isSendOut = data.interviewType === 'client';
 
+  useEffect(() => {
+    console.log('ran effect');
+    if (!notes && startingNotes) {
+      setNotes(startingNotes);
+    }
+  }, [notes, setNotes, startingNotes]);
   // const startingCandidateNotes = isSendOut ? data.recruiterTemplate : undefined;
 
   const prepRoomRecruiter = role === 'recruiter' && data.interviewType === 'client';
