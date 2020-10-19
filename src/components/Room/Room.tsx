@@ -36,9 +36,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   documentsNotesContainer: {
     gridArea: '3 / 1 / 4 / 2',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
   notesContainer: {
     gridArea: '2 / 1 / 3 / 3',
+    [theme.breakpoints.down('xs')]: {
+      display: 'none',
+    },
   },
 }));
 
