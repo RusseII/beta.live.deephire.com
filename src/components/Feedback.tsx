@@ -32,8 +32,6 @@ export default function App() {
   useParticipant(notes, feedback);
 
   useEffect(() => {
-    console.log('effect ran');
-
     if (data) {
       const { interviewType } = data;
       if (role === 'recruiter' || interviewType === 'recruiter') setFeedbackScreen(false);

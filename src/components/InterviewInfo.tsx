@@ -24,7 +24,9 @@ const CountDownContainer = ({ children }: any) => {
         <Col span={12}>
           {startTime && <Countdown style={{ marginBottom: 8 }} title="Interview Starts In" value={startTime} />}
         </Col>
-        <Col span={12}>{startingRole === 'recruiter' && displayItem(<SelectRole />, 'View As')}</Col>
+        <Col span={12}>
+          {startingRole === 'recruiter' && data.interviewType === 'client' && displayItem(<SelectRole />, 'View As')}
+        </Col>
       </Row>
       <Row>{children}</Row>
     </Container>
@@ -60,6 +62,7 @@ const Notes = () => {
       <CountDownContainer>
         {displayItem(data.recruiterName, 'Recruiter:')}
         {displayItem(data.jobName, 'Job Name:')}
+        {displayItem(data.phone, 'Phone')}
       </CountDownContainer>
     );
   }
@@ -107,9 +110,8 @@ const SelectRole = () => {
       style={{ width: 200 }}
       onChange={(value: 'recruiter' | 'client' | 'candidate') => setRole(value)}
     >
-      <Select.Option value="recruiter">Recruiter</Select.Option>
-      <Select.Option value="client">Client</Select.Option>
       <Select.Option value="candidate">Candidate</Select.Option>
+      <Select.Option value="recruiter">Recruiter</Select.Option>
     </Select>
   );
 };
