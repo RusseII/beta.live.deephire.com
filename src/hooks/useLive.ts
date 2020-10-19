@@ -42,7 +42,7 @@ export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
 
   const { data, error } = useSWR(URLRoomName ? [`/v1/live/${URLRoomName}`] : null, fetcher, {
-    refreshInterval: 100000,
+    refreshInterval: 2000,
   });
 
   return {
@@ -78,14 +78,15 @@ export const useCandidate = () => {
 interface Participant {
   participantName: string;
   role: 'candidate' | 'recruiter' | 'client';
-  notes: string;
+  notes?: string;
   feedback?: number;
 }
 export const useParticipant = (notes: string, feedback?: number) => {
   const { data: liveData } = useLive();
   const { URLRoomName } = useParams<ParamTypes>();
   const { startingRole, connectedName } = useContext(GlobalStateContext);
-  const prepRoomRecruiter = startingRole === 'recruiter' && liveData.interviewType === 'client';
+  const prepRoomRecruiter = startingRole === 'recruiter' && liveData?.interviewType === 'client';
+  console.log({ prepRoomRecruiter });
   const [shouldRun, setShouldRun] = useState(true);
   const {
     room: { localParticipant },
@@ -94,17 +95,16 @@ export const useParticipant = (notes: string, feedback?: number) => {
   useEffect(() => {
     if (shouldRun && !prepRoomRecruiter) {
       const { identity: participantName } = localParticipant || { identity: connectedName };
-      //TODO check to see if we can access identiy here when disconnected from the room.
-      // make sure if we send feedback, that we don't override the feeback is already there
-      // id like to use this method on the feedback screen if possible.
+      const showNotes = notes || undefined;
       const participant: Participant = {
         participantName,
         role: startingRole,
-        notes,
+        notes: showNotes,
         feedback,
       };
-      console.log('go');
-      putter(`/v1/live/${URLRoomName}/participants`, participant);
+      if (participantName) {
+        putter(`/v1/live/${URLRoomName}/participants`, participant);
+      }
       setShouldRun(false);
     }
   }, [URLRoomName, connectedName, feedback, localParticipant, notes, prepRoomRecruiter, shouldRun, startingRole]);
@@ -114,6 +114,6 @@ export const useParticipant = (notes: string, feedback?: number) => {
   }, [feedback]);
 
   useEffect(() => {
-    setInterval(() => setShouldRun(true), 300000);
+    setInterval(() => setShouldRun(true), 2000);
   }, []);
 };

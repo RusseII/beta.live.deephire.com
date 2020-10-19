@@ -25,8 +25,8 @@ const GlobalStateProvider = ({ children }: any) => {
   const [role, setRole] = useState<GlobalStateContextType['role']>(startingRole);
   const [baseRole] = useState<GlobalStateContextType['role']>(startingRole);
   const [notes, setNotes] = useState<string>('');
-  const [feedbackScreen, setFeedbackScreen] = useState<boolean>(true);
-  const [connectedName, setConnectedName] = useState<string>('demo');
+  const [feedbackScreen, setFeedbackScreen] = useState<boolean>(false);
+  const [connectedName, setConnectedName] = useState<string>('');
 
   return (
     <GlobalStateContext.Provider

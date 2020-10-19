@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Result, Button, Form, Rate, Row, Col, Typography, message } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
@@ -16,9 +16,22 @@ export default function App() {
   const { data } = useLive();
   const { notes, role, setFeedbackScreen, setNotes } = useContext(GlobalStateContext);
   const [feedback, setFeedback] = useState<number | undefined>(undefined);
+
   useParticipant(notes, feedback);
 
+  useEffect(() => {
+    console.log('effect ran');
+
+    if (data) {
+      const { interviewType } = data;
+      if (role === 'recruiter' || interviewType === 'recruiter') setFeedbackScreen(false);
+    }
+  }, [setFeedbackScreen, role, data]);
+
   if (!data) return null;
+
+  const candidateFeedbackInfo = 'Please rate this interview and opportunity:';
+  const clientFeedbackInfo = `Please rate ${data.candidateName} as a match for your opportunity:`;
   return (
     <div style={{ paddingLeft: 64, paddingRight: 64 }}>
       <Result
@@ -37,7 +50,7 @@ export default function App() {
         <Col sm={24} md={12}>
           <Typography.Title level={5}>Feedback</Typography.Title>
           <div style={{ marginBottom: 24 }}>
-            <span style={{ marginRight: 24 }}>Please rate {data.candidateName} as a match for your opportunity:</span>
+            <span style={{ marginRight: 24 }}>{role === 'client' ? clientFeedbackInfo : candidateFeedbackInfo}</span>
             <Rate onChange={setFeedback} />
           </div>
           <div style={{ marginBottom: 24 }}>
