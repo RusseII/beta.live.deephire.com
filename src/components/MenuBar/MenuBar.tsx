@@ -14,10 +14,6 @@ import ToggleAudioButton from '../Buttons/ToggleAudioButton/ToggleAudioButton';
 import ToggleVideoButton from '../Buttons/ToggleVideoButton/ToggleVideoButton';
 import ToggleScreenShareButton from '../Buttons/ToogleScreenShareButton/ToggleScreenShareButton';
 import { useCompany } from '../../hooks/useLive';
-import { GlobalStateContext } from '../../state/GlobalState';
-import { Select } from 'antd';
-
-const { Option } = Select;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -75,8 +71,6 @@ export default function MenuBar() {
   const roomState = useRoomState();
   const isReconnecting = roomState === 'reconnecting';
 
-  const { setRole } = useContext(GlobalStateContext);
-
   return (
     <>
       {isSharingScreen && (
@@ -99,14 +93,6 @@ export default function MenuBar() {
               <Hidden smDown>{!isSharingScreen && <ToggleScreenShareButton disabled={isReconnecting} />}</Hidden>
               <Hidden smDown>
                 <ChatSnackButton />
-                <Select
-                  style={{ width: 150 }}
-                  onChange={(value: 'recruiter' | 'client' | 'candidate') => setRole(value)}
-                >
-                  <Option value="recruiter">Recruiter</Option>
-                  <Option value="client">Client</Option>
-                  <Option value="candidate">Candidate</Option>
-                </Select>
               </Hidden>
               <FlipCameraButton />
             </Grid>

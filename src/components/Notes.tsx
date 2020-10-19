@@ -101,8 +101,8 @@ const Notes = () => {
       <Quill
         onChange={setNotes}
         key="candidate"
-        defaultValue={startingNotes || data.recruiterTemplate}
-        placeholder="Notes for the interview3"
+        defaultValue={startingNotes || data.candidateTemplate}
+        placeholder="Notes for the interview"
       />
       // </Area>
     );

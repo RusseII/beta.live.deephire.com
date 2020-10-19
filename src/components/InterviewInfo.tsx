@@ -3,7 +3,7 @@ import { useLive } from '../hooks/useLive';
 import { GlobalStateContext } from '../state/GlobalState';
 
 import { styled, Theme } from '@material-ui/core/styles';
-import { Card, Typography, Col, Row } from 'antd';
+import { Card, Typography, Col, Row, Select } from 'antd';
 import { Statistic } from 'antd';
 
 const { Countdown } = Statistic;
@@ -15,10 +15,17 @@ const Container = styled(Card)(({ theme }: { theme: Theme }) => ({
 
 const CountDownContainer = ({ children }: any) => {
   const { data } = useLive();
+  const { startingRole } = useContext(GlobalStateContext);
+
   const startTime = data?.interviewTime?.[0];
   return (
     <Container>
-      {startTime && <Countdown style={{ marginBottom: 8 }} title="Interview Starts In" value={startTime} />}
+      <Row style={{ marginBottom: 24 }}>
+        <Col span={12}>
+          {startTime && <Countdown style={{ marginBottom: 8 }} title="Interview Starts In" value={startTime} />}
+        </Col>
+        <Col span={12}>{startingRole === 'recruiter' && displayItem(<SelectRole />, 'View As')}</Col>
+      </Row>
       <Row>{children}</Row>
     </Container>
   );
@@ -84,12 +91,26 @@ export const ContactDetails = ({ data }: any) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        client@example.com
+        {data.clientContactEmail}
       </a>,
       'Email:'
     )}
-    {displayItem('330-362-2448', 'Phone:')}
+    {displayItem(data.phone, 'Phone:')}
   </>
 );
 
+const SelectRole = () => {
+  const { setRole } = useContext(GlobalStateContext);
+  return (
+    <Select
+      defaultValue="recruiter"
+      style={{ width: 200 }}
+      onChange={(value: 'recruiter' | 'client' | 'candidate') => setRole(value)}
+    >
+      <Select.Option value="recruiter">Recruiter</Select.Option>
+      <Select.Option value="client">Client</Select.Option>
+      <Select.Option value="candidate">Candidate</Select.Option>
+    </Select>
+  );
+};
 export default Notes;

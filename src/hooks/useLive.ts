@@ -37,6 +37,7 @@ interface Data {
   clientContactName?: string;
   clientContactEmail?: string;
   followUpTime?: any;
+  candidateTemplate?: string;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
