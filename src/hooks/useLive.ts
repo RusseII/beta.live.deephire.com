@@ -15,7 +15,7 @@ interface LiveTypes {
   isError: boolean;
 }
 
-interface Data {
+export interface Data {
   _id: string;
   interviewType: 'recruiter' | 'client';
   candidateName: string;
@@ -38,6 +38,8 @@ interface Data {
   clientContactEmail?: string;
   followUpTime?: any;
   candidateTemplate?: string;
+  candidateDebriefTime?: any;
+  clientDebriefTime?: any;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();

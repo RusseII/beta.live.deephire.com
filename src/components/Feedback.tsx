@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Result, Button, Form, Rate, Row, Col, Typography, message } from 'antd';
+import { Result, Button, Form, Rate, Row, Col, Typography, message, Statistic } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import ReactQuill from 'react-quill';
 import { GlobalStateContext } from '../state/GlobalState';
-import { useParticipant, useLive } from '../hooks/useLive';
+import { useParticipant, useLive, Data } from '../hooks/useLive';
 import InterviewInfo, { ContactDetails } from '../components/InterviewInfo';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-
+import dayjs from 'dayjs';
 import 'react-quill/dist/quill.snow.css';
 
 // const onFinish = () => {
@@ -79,17 +79,34 @@ export default function App() {
             Submit Feedback
           </Button>
         </Col>
-        <Col sm={24} md={12}>
-          <Typography.Title level={5}>Next Steps</Typography.Title>
-          {data.followUpTime && <span> You have a follow up meeting scheduled for: {data.followUpTime} </span>}
-          <Row style={{ marginTop: 24 }}>
-            <ContactDetails data={data} />
-          </Row>
-        </Col>
+        <InfoSide data={data} role={role} />
       </Row>
-      {/* <div style={{ height: 400, width: '30%' }}>
-        <InterviewInfo />
-      </div> */}
     </div>
   );
 }
+
+const InfoSide = ({ data, role }: { data: Data; role: string }) => {
+  const { clientDebriefTime, candidateDebriefTime } = data;
+
+  const clientDebriefTimeFormated = dayjs(clientDebriefTime).format('h:mm A dddd');
+  const candidatetDebriefTimeFormated = dayjs(candidateDebriefTime).format('h:mm A dddd');
+  return (
+    <Col sm={24} md={12}>
+      <Typography.Title level={5}>Next Steps</Typography.Title>
+      {role === 'client'
+        ? renderTime(!!clientDebriefTime, clientDebriefTimeFormated, data.clientContactName)
+        : renderTime(!!candidateDebriefTime, candidatetDebriefTimeFormated, data.clientContactName)}
+
+      {role === 'client' && (
+        <Row style={{ marginTop: 48 }}>
+          <div style={{ marginBottom: 8 }}>Please reach out using the info below to discuss the candidate.</div>
+          <ContactDetails data={data} />
+        </Row>
+      )}
+    </Col>
+  );
+};
+
+const renderTime = (isTime: any, formatedTime: any, name: any) => (
+  <>{isTime && <Statistic title={`You are scheduled to check in with ${name} at`} value={formatedTime} />}</>
+);
