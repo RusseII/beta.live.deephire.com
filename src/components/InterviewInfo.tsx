@@ -112,7 +112,7 @@ const SelectRole = () => {
     >
       <Select.Option value="candidate">Candidate</Select.Option>
       <Select.Option value="recruiter">Recruiter</Select.Option>
-      <Select.Option value="recruiter">Client</Select.Option>
+      <Select.Option value="client">Client</Select.Option>
     </Select>
   );
 };
