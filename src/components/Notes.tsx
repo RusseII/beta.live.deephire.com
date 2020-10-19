@@ -11,12 +11,14 @@ import { Select } from 'antd';
 
 const Area = styled('div')(({ theme }: { theme: Theme }) => ({
   backgroundColor: 'white',
+  height: '100%',
+  width: '100%',
   // gridArea: '3 / 2 / 4 / 4',
 }));
 const Quill = styled(ReactQuill)(({ theme }: { theme: Theme }) => ({
-  height: '100%',
-  width: '100%',
   backgroundColor: 'white',
+  width: '100%',
+  height: '100%',
 }));
 
 const Notes = () => {
@@ -50,12 +52,14 @@ const Notes = () => {
 
   if (role === 'client') {
     return (
-      <Quill
-        onChange={setNotes}
-        key="client"
-        defaultValue={startingNotes || data.clientTemplate}
-        placeholder="Notes for the interview1"
-      />
+      <Area>
+        <Quill
+          onChange={setNotes}
+          key="client"
+          defaultValue={startingNotes || data.clientTemplate}
+          placeholder="Notes for the interview1"
+        />
+      </Area>
     );
   }
   if (prepRoomRecruiter) {
@@ -64,7 +68,6 @@ const Notes = () => {
         <div style={{ padding: 8 }}>
           Select a candidate to view their notes:
           <SelectCandidate
-            style={{ marginLeft: 8 }}
             selectedCandidate={selectedCandidate}
             activeCandidates={activeCandidates}
             setSelectedCandidate={setSelectedCandidate}
@@ -94,12 +97,14 @@ const Notes = () => {
 
   if (role === 'candidate') {
     return (
+      // <Area>
       <Quill
         onChange={setNotes}
         key="candidate"
         defaultValue={startingNotes || data.recruiterTemplate}
         placeholder="Notes for the interview3"
       />
+      // </Area>
     );
   }
   return null;
@@ -109,7 +114,7 @@ const SelectCandidate = ({ activeCandidates, setSelectedCandidate, selectedCandi
   <Select
     placeholder="Select a candidate"
     defaultValue={selectedCandidate}
-    style={{ width: 120 }}
+    style={{ width: 120, marginLeft: 8 }}
     onChange={value => setSelectedCandidate(value)}
   >
     {activeCandidates.map((candidate: any) => (
