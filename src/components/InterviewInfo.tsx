@@ -107,11 +107,12 @@ const SelectRole = () => {
   return (
     <Select
       defaultValue="recruiter"
-      style={{ width: 200 }}
+      style={{ width: 150 }}
       onChange={(value: 'recruiter' | 'client' | 'candidate') => setRole(value)}
     >
       <Select.Option value="candidate">Candidate</Select.Option>
       <Select.Option value="recruiter">Recruiter</Select.Option>
+      <Select.Option value="recruiter">Client</Select.Option>
     </Select>
   );
 };
