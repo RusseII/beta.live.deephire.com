@@ -5,17 +5,29 @@ import ReactQuill from 'react-quill';
 import { GlobalStateContext } from '../state/GlobalState';
 import { useParticipant, useLive } from '../hooks/useLive';
 import InterviewInfo, { ContactDetails } from '../components/InterviewInfo';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import 'react-quill/dist/quill.snow.css';
 
 // const onFinish = () => {
 //   console.log('finished');
 // };
+const useStyles = makeStyles((theme: Theme) => ({
+  quill: {
+    '& .ql-container': {
+      '& .ql-editor': {
+        maxHeight: 200,
+        maxWidth: '50vw',
+      },
+    },
+  },
+}));
 
 export default function App() {
   const { data } = useLive();
   const { notes, role, setFeedbackScreen, setNotes } = useContext(GlobalStateContext);
   const [feedback, setFeedback] = useState<number | undefined>(undefined);
+  const classes = useStyles();
 
   useParticipant(notes, feedback);
 
@@ -55,6 +67,7 @@ export default function App() {
           </div>
           <div style={{ marginBottom: 24 }}>
             <ReactQuill
+              className={classes.quill}
               onChange={setNotes}
               key="feedback"
               defaultValue={notes}
