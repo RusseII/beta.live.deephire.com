@@ -32,12 +32,12 @@ export default async (request: NowRequest, response: NowResponse) => {
   };
 
   fetch(`https://video.twilio.com/v1/Rooms/${sid}/RecordingRules`, requestOptions)
-    .then(res => res.json())
-    .then(result => {
+    .then((res: any) => res.json())
+    .then((result: any) => {
       console.log(result)
       response.status(200).json(result);
     })
-    .catch(error => {
+    .catch((error: any) => {
       console.log(error)
       response.status(200).json(error);
     });
