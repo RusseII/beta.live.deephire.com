@@ -7,7 +7,7 @@ import PreJoinScreens from './components/PreJoinScreens/PreJoinScreens';
 import ReconnectingNotification from './components/ReconnectingNotification/ReconnectingNotification';
 import Room from './components/Room/Room';
 import Feedback from './components/Feedback';
-import useRecording from './hooks/useRecording';
+
 import { GlobalStateContext } from './state/GlobalState';
 
 import 'antd/dist/antd.css';
@@ -30,7 +30,6 @@ const Main = styled('main')(({ theme }: { theme: Theme }) => ({
 
 export default function App() {
   const roomState = useRoomState();
-  useRecording();
   const { feedbackScreen } = useContext(GlobalStateContext);
 
   // Here we would like the height of the main container to be the height of the viewport.

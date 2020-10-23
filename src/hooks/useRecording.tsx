@@ -9,24 +9,33 @@ const useRecording = () => {
   const { room } = useVideoContext();
   const { startingRole } = useContext(GlobalStateContext);
 
-  const { sid, participants } = room;
-  const size = participants?.size;
+  const { sid } = room;
   const { interviewType, recording } = liveData || {};
 
   const isRecruiterType = interviewType === 'recruiter';
   const isClient = interviewType === 'client' && startingRole === 'client';
   useEffect(() => {
-    if (sid) {
-      // size shows all external participants
-      if (recording && size >= 1) {
-        if (isClient || isRecruiterType) {
-          fetch(`/api/recording/${sid}/include`);
+    const toggleRecording = () => {
+      if (sid) {
+        if (recording) {
+          // on the server side, it also checks the number of participants.
+          // it will only record if there are 2 participants in the room
+          if (isClient || isRecruiterType) {
+            fetch(`/api/recording/${sid}/include`);
+          }
+        } else {
+          fetch(`/api/recording/${sid}/exclude`);
         }
-      } else {
-        fetch(`/api/recording/${sid}/exclude`);
       }
-    }
-  }, [startingRole, sid, recording, size, isClient, isRecruiterType]);
+    };
+
+    room.on('participantConnected', toggleRecording);
+    room.on('participantDisconnected', toggleRecording);
+    return () => {
+      room.off('participantConnected', toggleRecording);
+      room.off('participantDisconnected', toggleRecording);
+    };
+  }, [isClient, isRecruiterType, recording, room, sid]);
 };
 
 export default useRecording;

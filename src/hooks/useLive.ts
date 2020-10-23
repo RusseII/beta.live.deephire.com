@@ -89,7 +89,6 @@ export const useParticipant = (notes: string, feedback?: number) => {
   const { URLRoomName } = useParams<ParamTypes>();
   const { startingRole, connectedName } = useContext(GlobalStateContext);
   const prepRoomRecruiter = startingRole === 'recruiter' && liveData?.interviewType === 'client';
-  console.log({ prepRoomRecruiter });
   const [shouldRun, setShouldRun] = useState(true);
   const {
     room: { localParticipant },
