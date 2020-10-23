@@ -123,7 +123,7 @@ export default function MainParticipantInfo({ participant, children, isDocuments
             {isLocal && ' (You)'}
             {screenSharePublication && ' - Screen'}
           </Typography>
-          {data?.recording !== false && <RecordingIndicator />}
+          {data?.recording === true && <RecordingIndicator />}
         </div>
       </div>
       {(!isVideoEnabled || isVideoSwitchedOff) && (

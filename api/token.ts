@@ -12,29 +12,25 @@ const client = require('twilio')(twilioApiKeySID, twilioApiKeySecret, { accountS
 
 const createRoom = async (roomName: string | string[]) => {
   try {
-    const currentRoom = await client.video.rooms(roomName).fetch();
-    console.log('Room Exists', currentRoom);
+    const room = await client.video.rooms.create({
+      recordParticipantsOnConnect: false,
+      statusCallback: 'https://a.deephire.com/v1/live/events',
+      type: 'group',
+      uniqueName: roomName,
+    });
+    console.log('created room', room)
   } catch (err) {
-    console.log(err);
-    if (err.status === 404) {
-      // room does not exist, so create it.
-      const room = await client.video.rooms.create({
-        recordParticipantsOnConnect: true,
-        statusCallback: 'https://a.deephire.com/v1/live/events',
-        type: 'group',
-        uniqueName: roomName,
-      });
-      console.log('room created', room);
-    }
+    console.log('error creating room', err);
   }
 };
+
 interface QueryInterface {
   roomName: string;
   identity: string;
 }
-export default  (request: NowRequest, response: NowResponse) => {
-  const { identity, roomName } = request.query
-   createRoom(roomName);
+export default async (request: NowRequest, response: NowResponse) => {
+  const { identity, roomName } = request.query;
+  await createRoom(roomName);
   const token = new AccessToken(twilioAccountSid, twilioApiKeySID, twilioApiKeySecret, {
     ttl: MAX_ALLOWED_SESSION_DURATION,
   });
