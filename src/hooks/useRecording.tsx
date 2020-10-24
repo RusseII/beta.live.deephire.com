@@ -28,7 +28,7 @@ const useRecording = () => {
         }
       }
     };
-
+    toggleRecording();
     room.on('participantConnected', toggleRecording);
     room.on('participantDisconnected', toggleRecording);
     return () => {

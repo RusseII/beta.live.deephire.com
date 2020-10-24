@@ -8,7 +8,7 @@ import { useCandidate } from '../../hooks/useLive';
 import Notes from '../Notes';
 import InterviewInfo from '../InterviewInfo';
 import { Row, Col } from 'antd';
-import useRecording from '../../hooks/useRecording';
+
 const useStyles = makeStyles((theme: Theme) => ({
   room: {
     position: 'relative',
@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export default function Room() {
-  useRecording();
   const { data } = useCandidate();
   const isDocuments = data?.files.length > 0;
   const classes = useStyles();

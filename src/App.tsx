@@ -13,6 +13,7 @@ import { GlobalStateContext } from './state/GlobalState';
 import 'antd/dist/antd.css';
 import useHeight from './hooks/useHeight/useHeight';
 import useRoomState from './hooks/useRoomState/useRoomState';
+import useRecording from './hooks/useRecording';
 
 const Container = styled('div')({
   display: 'grid',
@@ -30,6 +31,8 @@ const Main = styled('main')(({ theme }: { theme: Theme }) => ({
 
 export default function App() {
   const roomState = useRoomState();
+  useRecording();
+
   const { feedbackScreen } = useContext(GlobalStateContext);
 
   // Here we would like the height of the main container to be the height of the viewport.
