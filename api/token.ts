@@ -13,7 +13,7 @@ const client = require('twilio')(twilioApiKeySID, twilioApiKeySecret, { accountS
 const createRoom = async (roomName: string | string[]) => {
   try {
     const room = await client.video.rooms.create({
-      recordParticipantsOnConnect: false,
+      recordParticipantsOnConnect: true,
       statusCallback: 'https://a.deephire.com/v1/live/events',
       type: 'group',
       uniqueName: roomName,
