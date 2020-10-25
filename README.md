@@ -1,4 +1,4 @@
-# Twilio Video React App
+DeepHire Video
 
 [![CircleCI](https://circleci.com/gh/twilio/twilio-video-app-react.svg?style=svg)](https://circleci.com/gh/twilio/twilio-video-app-react)
 
