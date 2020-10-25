@@ -6,6 +6,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 
 import App from './App';
 import AppStateProvider, { useAppState } from './state';
+import GlobalStateProvider from './state/GlobalState';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import ErrorDialog from './components/ErrorDialog/ErrorDialog';
 import LoginPage from './components/LoginPage/LoginPage';
@@ -34,20 +35,22 @@ ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Router>
-      <AppStateProvider>
-        <Switch>
-          <PrivateRoute exact path="/">
-            <VideoApp />
-          </PrivateRoute>
-          <PrivateRoute path="/room/:URLRoomName">
-            <VideoApp />
-          </PrivateRoute>
-          <Route path="/login">
-            <LoginPage />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      </AppStateProvider>
+      <GlobalStateProvider>
+        <AppStateProvider>
+          <Switch>
+            <PrivateRoute exact path="/">
+              <VideoApp />
+            </PrivateRoute>
+            <PrivateRoute path="/room/:URLRoomName">
+              <VideoApp />
+            </PrivateRoute>
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+            <Redirect to="/" />
+          </Switch>
+        </AppStateProvider>
+      </GlobalStateProvider>
     </Router>
   </MuiThemeProvider>,
   document.getElementById('root')

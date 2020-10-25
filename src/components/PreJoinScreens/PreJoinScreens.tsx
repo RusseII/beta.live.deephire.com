@@ -21,11 +21,11 @@ interface ParamTypes {
 
 const defaultName = localStorage.getItem('name');
 export default function PreJoinScreens() {
-  const { data, isLoading, isError } = useLive();
+  const { data, isLoading: isLoadingLive, isError } = useLive();
 
   // preload company data
-  useCompany();
-  useCandidate();
+  const { isLoading: isLoadingCompany } = useCompany();
+  const { isLoading: isLoadingCandidate } = useCandidate();
 
   const { user } = useAppState();
   const { getAudioAndVideoTracks } = useVideoContext();
@@ -93,7 +93,7 @@ export default function PreJoinScreens() {
 
   return (
     <IntroContainer subContent={step === Steps.deviceSelectionStep && SubContent}>
-      <Spin spinning={isLoading}>
+      <Spin spinning={isLoadingLive || isLoadingCompany || isLoadingCandidate}>
         {step === Steps.roomNameStep && (
           <RoomNameScreen
             companyName={data?.companyName}

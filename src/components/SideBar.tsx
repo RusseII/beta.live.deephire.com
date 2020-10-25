@@ -2,15 +2,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Tabs } from 'antd';
 import { useCandidate } from '../hooks/useLive';
 import { styled, Theme } from '@material-ui/core/styles';
+import { backOff } from 'exponential-backoff';
 
 const { TabPane } = Tabs;
 
 const Container = styled('aside')(({ theme }: { theme: Theme }) => ({
   background: 'rgb(79, 83, 85)',
-  gridArea: '1 / 3 / 3 / 4',
-  [theme.breakpoints.down('lg')]: {
-    gridArea: '1 / 3 / 3 / 4',
-  },
+  gridArea: '1 / 2 / 4 / 3',
+  // [theme.breakpoints.down('lg')]: {
+  //   gridArea: '1 / 2 / 3 / 3',
+  // },
 }));
 
 const SideBar = () => {
@@ -66,9 +67,7 @@ interface IframeGoogleDocsProps {
 }
 
 export function IframeGoogleDoc({ url, header }: IframeGoogleDocsProps) {
-  const [iframeTimeoutId, setIframeTimeoutId] = useState<any>();
   const iframeRef: any = useRef(null);
-
   const getIframeLink = useCallback(() => {
     return `https://docs.google.com/gview?url=${url}&embedded=true`;
   }, [url]);
@@ -80,18 +79,26 @@ export function IframeGoogleDoc({ url, header }: IframeGoogleDocsProps) {
   }, [getIframeLink]);
 
   useEffect(() => {
-    const intervalId = setInterval(updateIframeSrc, 1000 * 20);
-    setIframeTimeoutId(intervalId);
+    const load = async () => {
+      await backOff(
+        () => {
+          updateIframeSrc();
+          return iframeRef.current.deephireLoaded ? Promise.resolve() : Promise.reject();
+        },
+        {
+          startingDelay: 2000,
+        }
+      );
+    };
+    load();
   }, [updateIframeSrc]);
-
-  function iframeLoaded() {
-    clearInterval(iframeTimeoutId);
-  }
 
   return (
     <iframe
       title="Candidate Document"
-      onLoad={iframeLoaded}
+      onLoad={() => {
+        iframeRef.current.deephireLoaded = true;
+      }}
       onError={updateIframeSrc}
       ref={iframeRef}
       style={{ width: '100%', height: header ? 'calc(100vh - (72px + 24px + 46px + 12px))' : 'calc(100vh - (72px))' }}
