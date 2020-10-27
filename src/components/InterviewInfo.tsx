@@ -90,7 +90,7 @@ export const ContactDetails = ({ data }: any) => (
   <>
     {displayItem(
       <a
-        href={`mailto:${data.clientContactEmail}?subject=Interview%20with%20${data.candidateName}&body=Hi%20-%20${data.recruiterName}%0D%0A%0D%0AI%20just%20had%20an%20interview%20with%20${data.candidateName}.%0D%0A%0D%0AHere's%20a%20summary%20of%20how%20it%20went%3A%0D%0A%0D%0A%0D%0AThanks%2C`}
+        href={`mailto:${data.clientContactEmail}?subject=Interview%20with%20${data.candidateName}&body=Hi%20-%20${data.recruiterName},`}
         target="_blank"
         rel="noopener noreferrer"
       >

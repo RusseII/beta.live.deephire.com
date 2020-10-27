@@ -18,7 +18,7 @@ const createRoom = async (roomName: string | string[]) => {
       type: 'group',
       uniqueName: roomName,
     });
-    console.log('created room', room)
+    console.log('created room', room.sid)
   } catch (err) {
     console.log('error creating room', err);
   }

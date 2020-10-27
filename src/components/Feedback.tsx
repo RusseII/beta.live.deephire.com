@@ -97,7 +97,11 @@ const InfoSide = ({ data, role }: { data: Data; role: string }) => {
 
       {role === 'client' && (
         <Row style={{ marginTop: 48 }}>
-          <div style={{ marginBottom: 8 }}>Please reach out using the info below to discuss the candidate.</div>
+          <div style={{ marginBottom: 8 }}>
+            {' '}
+            {data.clientContactName} will reach out to you soon. If you would like to speak sooner, please feel free to
+            reach out to me using the information below to discuss the candidate.
+          </div>
           <ContactDetails data={data} />
         </Row>
       )}
