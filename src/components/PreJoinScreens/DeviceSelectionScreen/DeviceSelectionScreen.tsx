@@ -72,7 +72,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   const { data: liveData } = useLive();
 
   const showModal = () => {
-    const { _id } = liveData;
+    const { _id } = data;
     const appleoneId = '5e95d7d3aed1120001480d69';
     const appledevId = '5f7f25460d77330001bc9b91';
     const benjId = '5dc5d305a4ea435efa57f644';
