@@ -96,7 +96,7 @@ export const ContactDetails = ({ data }: any) => (
       >
         {data.clientContactEmail}
       </a>,
-      'Email:'
+      'Recruiter Email:'
     )}
     {displayItem(data.phone, 'Phone:')}
   </>
