@@ -24,7 +24,7 @@ export default function PreJoinScreens() {
   const { data, isLoading: isLoadingLive, isError } = useLive();
 
   // preload company data
-  const { isLoading: isLoadingCompany } = useCompany();
+  const { isLoading: isLoadingCompany, companyName } = useCompany();
   const { isLoading: isLoadingCandidate } = useCandidate();
 
   const { user } = useAppState();
@@ -96,7 +96,7 @@ export default function PreJoinScreens() {
       <Spin spinning={isLoadingLive || isLoadingCompany || isLoadingCandidate}>
         {step === Steps.roomNameStep && (
           <RoomNameScreen
-            companyName={data?.companyName}
+            companyName={companyName}
             name={name}
             roomName={roomName}
             setName={setName}

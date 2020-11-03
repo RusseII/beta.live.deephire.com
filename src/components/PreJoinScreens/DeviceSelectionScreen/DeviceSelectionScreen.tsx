@@ -63,7 +63,7 @@ interface DeviceSelectionScreenProps {
 }
 
 export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
-  const { data } = useCompany();
+  const { companyName, data } = useCompany();
   const classes = useStyles();
   const { getToken, isFetching } = useAppState();
   const { connect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
@@ -139,7 +139,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join {data.companyName} Video Room
+        Join {companyName} Video Room
       </Typography>
 
       <Grid container justify="center">

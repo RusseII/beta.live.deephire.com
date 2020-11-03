@@ -32,11 +32,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function MobileTopMenuBar() {
   const classes = useStyles();
-  const { data } = useCompany();
+  const { companyName, logo } = useCompany();
 
   return (
     <Grid container alignItems="center" justify="space-between" className={classes.container}>
-      <img alt={data.companyName} style={{ width: 'auto', height: '50px' }} src={data.logo} />
+      <img alt={companyName} style={{ width: 'auto', height: '50px' }} src={logo} />
 
       <div>
         <EndCallButton className={classes.endCallButton} />
