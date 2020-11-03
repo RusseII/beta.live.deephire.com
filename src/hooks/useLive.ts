@@ -40,6 +40,8 @@ export interface Data {
   candidateTemplate?: string;
   candidateDebriefTime?: any;
   clientDebriefTime?: any;
+  recruiterCompany?: string;
+  recruiterCompanyCountry?: string;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
@@ -58,8 +60,21 @@ export const useLive = (): LiveTypes => {
 export const useCompany = () => {
   const { data: liveData } = useLive();
   const { data, error } = useSWR(liveData?.companyId ? [`/v1/companies/${liveData.companyId}`] : null, fetcher);
+
+  const { recruiterCompany = '', recruiterCompanyCountry = '' } = liveData || {};
+  const generalLogo = data?.brands?.[recruiterCompany]?.logo;
+  const countryLogo = data?.brands?.[recruiterCompany]?.[recruiterCompanyCountry]?.logo;
+
+  const logo = countryLogo || generalLogo || data?.logo;
+
+  const generalName = data?.brands?.[recruiterCompany]?.name;
+  const countryName = data?.brands?.[recruiterCompany]?.[recruiterCompanyCountry]?.name;
+
+  const companyName = countryName || generalName || data?.companyName;
   return {
     data,
+    logo,
+    companyName,
     isLoading: !error && !data,
     isError: error,
   };

@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function MenuBar() {
-  const { data } = useCompany();
+  const { companyName, logo } = useCompany();
   const classes = useStyles();
   const { isSharingScreen, toggleScreenShare } = useVideoContext();
   const roomState = useRoomState();
@@ -84,7 +84,7 @@ export default function MenuBar() {
         <Grid container justify="space-around" alignItems="center">
           <Hidden smDown>
             <Grid style={{ flex: 1 }}>
-              <img alt={data.companyName} style={{ width: 'auto', height: '50px' }} src={data.logo} />
+              <img alt={companyName} style={{ width: 'auto', height: '50px' }} src={logo} />
               <ShareInterview />
             </Grid>
           </Hidden>
