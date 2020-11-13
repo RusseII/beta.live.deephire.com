@@ -4,7 +4,7 @@ You need to use https://vercel.com/docs to run and deploy
 
 #### Setup
 ```
-// add project to your vercel account
+// add project to your vercel account. If you don't have a vercel account set one up. 
 vercel 
 
 // add env variables to vercel https://vercel.com/docs/build-step#environment-variables
