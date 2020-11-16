@@ -3,11 +3,10 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLive, useParticipant } from '../hooks/useLive';
 import useVideoContext from '../hooks/useVideoContext/useVideoContext';
-
 import { GlobalStateContext } from '../state/GlobalState';
-
 import { styled, Theme } from '@material-ui/core/styles';
 import { Select } from 'antd';
+import Editor from './Editor/index';
 
 const Area = styled('div')(({ theme }: { theme: Theme }) => ({
   backgroundColor: 'white',
@@ -85,13 +84,14 @@ const Notes = () => {
   }
   if (role === 'recruiter') {
     return (
-      <Quill
+      <Editor
+        notes={startingNotes || data.recruiterTemplate}
         onChange={setNotes}
         key="recruiter"
         readOnly={isSendOut}
         defaultValue={startingNotes || data.recruiterTemplate}
         placeholder={isSendOut ? 'This field is only editable by the candidate' : 'Notes for the interview2'}
-      />
+      ></Editor>
     );
   }
 

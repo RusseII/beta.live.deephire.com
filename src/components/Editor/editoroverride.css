@@ -1,0 +1,8 @@
+.ql-container.ql-snow {
+  height: auto;
+  overflow-y: scroll;
+}
+.ql-editor {
+  /* height of the bottom panel minus fixed toolbar */
+  height: calc(40vh - 3em);
+}
