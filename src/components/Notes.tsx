@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLive, useParticipant } from '../hooks/useLive';
 import useVideoContext from '../hooks/useVideoContext/useVideoContext';
-
+import { Button } from 'antd';
 import { GlobalStateContext } from '../state/GlobalState';
 
-import { styled, Theme } from '@material-ui/core/styles';
+import { styled, makeStyles, Theme } from '@material-ui/core/styles';
 import { Select } from 'antd';
 
 const Area = styled('div')(({ theme }: { theme: Theme }) => ({
@@ -21,7 +21,17 @@ const Quill = styled(ReactQuill)(({ theme }: { theme: Theme }) => ({
   height: '100%',
 }));
 
+const useStyles = makeStyles((theme: Theme) => ({
+  quill: {
+    height: 'calc(100% - 42px)',
+    width: 'calc(100% - 165px)',
+  },
+}));
+
 const Notes = () => {
+  const classes = useStyles();
+
+  let quilRef: any = useRef(null);
   const {
     room: { localParticipant },
   } = useVideoContext();
@@ -38,6 +48,15 @@ const Notes = () => {
       setNotes(startingNotes);
     }
   }, [notes, setNotes, startingNotes]);
+
+  useEffect(() => {
+    const attachQuillRefs = () => {
+      if (typeof quilRef?.current?.getEditor !== 'function') return;
+      quilRef.current = quilRef.current.getEditor();
+    };
+    attachQuillRefs();
+  }, [quilRef]);
+
   // const startingCandidateNotes = isSendOut ? data.recruiterTemplate : undefined;
 
   const prepRoomRecruiter = role === 'recruiter' && data.interviewType === 'client';
@@ -49,6 +68,92 @@ const Notes = () => {
 
   const [selectedCandidate, setSelectedCandidate] = useState<string>(activeCandidates?.[0]?.name);
   const selectedCandidateNotes = data?.participants?.[selectedCandidate]?.notes || '';
+
+  function scrollToSection(content = 'Job Search Activities') {
+    const quillText = quilRef.current.getText();
+    let contentIndex = quillText.lastIndexOf(content);
+
+    //scroll to bottom, then where you want. This ensures that the text is
+    // at the top of the final scroll locaiton
+    if (contentIndex !== -1) {
+      quilRef.current.setSelection(quillText.length - 1, 1);
+      quilRef.current.setSelection(contentIndex, content.length);
+    }
+  }
+
+  const AppleOneTemplate = () => {
+    const showTemplate =
+      data?.companyId === '5e95d7d3aed1120001480d69' ||
+      data?.companyId === '5f7f25460d77330001bc9b91' ||
+      data?.companyId === '5dc5d305a4ea435efa57f644';
+    if (!showTemplate) return null;
+    return (
+      <>
+        <div style={{ width: 165, marginTop: 12 }}>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Qualify availability factors')}>
+              Availability Factors
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Open Seed Interview')}>
+              Open Seed Interview
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Previous Employers')}>
+              Previous Employers
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Where Temped')}>
+              Where Temped
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Peer & Co-Worker References')}>
+              References{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Priorities')}>
+              Priorities
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Job Search Activities')}>
+              Job Search Activities{' '}
+            </Button>
+          </div>
+          <div>
+            <Button
+              size="small"
+              type="link"
+              onClick={() => scrollToSection('Where Want to Work, Competitors/Cust’s/Vendors')}
+            >
+              Target Companies{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Hot Selling Points')}>
+              Hot Selling Points{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Close and Referrals')}>
+              Close/Referrals{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Disengagement Script')}>
+              Disengagement Script
+            </Button>
+          </div>
+        </div>
+        <div></div>
+      </>
+    );
+  };
 
   if (role === 'client') {
     return (
@@ -85,26 +190,32 @@ const Notes = () => {
   }
   if (role === 'recruiter') {
     return (
-      <Quill
-        onChange={setNotes}
-        key="recruiter"
-        readOnly={isSendOut}
-        defaultValue={startingNotes || data.recruiterTemplate}
-        placeholder={isSendOut ? 'This field is only editable by the candidate' : 'Notes for the interview2'}
-      />
+      <Area>
+        <div style={{ width: '100%', height: '100%', display: 'flex' }}>
+          <AppleOneTemplate />
+          <ReactQuill
+            className={classes.quill}
+            ref={quilRef}
+            onChange={setNotes}
+            key="recruiter"
+            readOnly={isSendOut}
+            defaultValue={startingNotes || data.recruiterTemplate}
+            placeholder={isSendOut ? 'This field is only editable by the candidate' : 'Notes for the interview'}
+          />
+        </div>
+        {/* </div> */}
+      </Area>
     );
   }
 
   if (role === 'candidate') {
     return (
-      // <Area>
       <Quill
         onChange={setNotes}
         key="candidate"
         defaultValue={startingNotes || data.candidateTemplate}
         placeholder="Notes for the interview"
       />
-      // </Area>
     );
   }
   return null;

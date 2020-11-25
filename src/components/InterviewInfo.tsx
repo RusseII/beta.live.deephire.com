@@ -13,8 +13,17 @@ const Container = styled(Card)(({ theme }: { theme: Theme }) => ({
   overflow: 'auto',
 }));
 
+const AppleoneOA = (offsysid: string, xpress_id: string) => (
+  <Typography.Text
+    copyable={{ text: `http://oadevweb01/oanetsales_20-09/default.aspx?offsysid=${offsysid}&xpress_id=${xpress_id}` }}
+  >
+    Copy OA Link
+  </Typography.Text>
+);
+
 const CountDownContainer = ({ children }: any) => {
   const { data } = useLive();
+  const { OffSysID, XpressID } = data || {};
   const { startingRole } = useContext(GlobalStateContext);
 
   const startTime = data?.interviewTime?.[0];
@@ -26,6 +35,12 @@ const CountDownContainer = ({ children }: any) => {
         </Col>
         <Col span={12}>
           {startingRole === 'recruiter' && data.interviewType === 'client' && displayItem(<SelectRole />, 'View As')}
+
+          {OffSysID &&
+            XpressID &&
+            startingRole === 'recruiter' &&
+            data.interviewType === 'recruiter' &&
+            AppleoneOA(OffSysID, XpressID)}
         </Col>
       </Row>
       <Row>{children}</Row>
