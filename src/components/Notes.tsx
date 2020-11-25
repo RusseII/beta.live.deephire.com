@@ -81,72 +81,79 @@ const Notes = () => {
     }
   }
 
-  const AppleOneTemplate = () => (
-    <>
-      <div style={{ width: 165, marginTop: 12 }}>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Qualify availability factors')}>
-            Availability Factors
-          </Button>
+  const AppleOneTemplate = () => {
+    const showTemplate =
+      data?.companyId === '5e95d7d3aed1120001480d69' ||
+      data?.companyId === '5f7f25460d77330001bc9b91' ||
+      data?.companyId === '5dc5d305a4ea435efa57f644';
+    if (!showTemplate) return null;
+    return (
+      <>
+        <div style={{ width: 165, marginTop: 12 }}>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Qualify availability factors')}>
+              Availability Factors
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Open Seed Interview')}>
+              Open Seed Interview
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Previous Employers')}>
+              Previous Employers
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Where Temped')}>
+              Where Temped
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Peer & Co-Worker References')}>
+              References{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Priorities')}>
+              Priorities
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Job Search Activities')}>
+              Job Search Activities{' '}
+            </Button>
+          </div>
+          <div>
+            <Button
+              size="small"
+              type="link"
+              onClick={() => scrollToSection('Where Want to Work, Competitors/Cust’s/Vendors')}
+            >
+              Target Companies{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Hot Selling Points')}>
+              Hot Selling Points{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Close and Referrals')}>
+              Close/Referrals{' '}
+            </Button>
+          </div>
+          <div>
+            <Button size="small" type="link" onClick={() => scrollToSection('Disengagement Script')}>
+              Disengagement Script
+            </Button>
+          </div>
         </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Open Seed Interview')}>
-            Open Seed Interview
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Previous Employers')}>
-            Previous Employers
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Where Temped')}>
-            Where Temped
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Peer & Co-Worker References')}>
-            References{' '}
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Priorities')}>
-            Priorities
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Job Search Activities')}>
-            Job Search Activities{' '}
-          </Button>
-        </div>
-        <div>
-          <Button
-            size="small"
-            type="link"
-            onClick={() => scrollToSection('Where Want to Work, Competitors/Cust’s/Vendors')}
-          >
-            Target Companies{' '}
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Hot Selling Points')}>
-            Hot Selling Points{' '}
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Close and Referrals')}>
-            Close/Referrals{' '}
-          </Button>
-        </div>
-        <div>
-          <Button size="small" type="link" onClick={() => scrollToSection('Disengagement Script')}>
-            Disengagement Script
-          </Button>
-        </div>
-      </div>
-      <div></div>
-    </>
-  );
+        <div></div>
+      </>
+    );
+  };
 
   if (role === 'client') {
     return (
@@ -213,6 +220,7 @@ const Notes = () => {
   }
   return null;
 };
+
 const SelectCandidate = ({ activeCandidates, setSelectedCandidate, selectedCandidate }: any) => (
   <Select
     placeholder="Select a candidate"
