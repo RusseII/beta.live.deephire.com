@@ -3,7 +3,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useLive, useParticipant } from '../hooks/useLive';
 import useVideoContext from '../hooks/useVideoContext/useVideoContext';
-import { Button, PageHeader } from 'antd';
+import { Button } from 'antd';
 import { GlobalStateContext } from '../state/GlobalState';
 
 import { styled, makeStyles, Theme } from '@material-ui/core/styles';
