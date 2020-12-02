@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   noFiles: {
     gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
     gridTemplateRows: '60vh 40vh',
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateRows: `100%`,
+    },
     // [theme.breakpoints.down('lg')]: {
     //   gridTemplateColumns: `100%`,
     //   gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
