@@ -44,6 +44,9 @@ export interface Data {
   recruiterCompanyCountry?: string;
   OffSysID?: string;
   XpressID?: string;
+  clientName?: string;
+  clientCompany?: string;
+  clientTitle?: string;
 }
 export const useLive = (): LiveTypes => {
   const { URLRoomName } = useParams<ParamTypes>();
