@@ -72,12 +72,23 @@ const Notes = () => {
     );
   }
 
-  if (role === 'candidate') {
+  if (role === 'candidate' && data.interviewType === 'recruiter') {
     return (
       <CountDownContainer>
         {displayItem(data.recruiterName, 'Recruiter:')}
         {displayItem(data.jobName, 'Job Name:')}
         {displayItem(data.phone, 'Phone')}
+      </CountDownContainer>
+    );
+  }
+
+  if (role === 'candidate' && data.interviewType === 'client') {
+    return (
+      <CountDownContainer>
+        {displayItem(data.clientName, 'Interviewer:')}
+        {displayItem(data.clientTitle, 'Title: ')}
+        {displayItem(data.clientCompany, 'Company:')}
+        {displayItem(data.jobName, 'Position:')}
       </CountDownContainer>
     );
   }
