@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   noFiles: {
     gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
-    gridTemplateRows: '60vh 40vh',
+    gridTemplateRows: '50vh 50vh',
     [theme.breakpoints.down('xs')]: {
       gridTemplateRows: `100%`,
     },
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   files: {
     gridTemplateColumns: `1fr 40vw`,
-    gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
+    gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 50vh`,
     // [theme.breakpoints.down('lg')]: {
     //   gridTemplateColumns: `1fr 40vw`,
     //   gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
@@ -73,7 +73,7 @@ export default function Room() {
 }
 
 const BottomNotesSection = ({ isDocuments }: any) => {
-  const vwValue = 14 / 24;
+  const vwValue = 19 / 24;
   const classes = useStyles();
   return (
     <Row
@@ -82,11 +82,11 @@ const BottomNotesSection = ({ isDocuments }: any) => {
         [classes.documentsNotesContainer]: isDocuments,
       })}
     >
-      <Col span={10}>
+      <Col>
         <InterviewInfo />
       </Col>
       {/* set style to fix bug where the notes section would overflow the container */}
-      <Col style={{ height: '40vh', width: `${vwValue}vw` }} span={14}>
+      <Col style={{ height: '50vh', width: `${vwValue}vw` }} flex="auto">
         <Notes />
       </Col>
     </Row>
