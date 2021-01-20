@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ParticipantList from '../ParticipantList/ParticipantList';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import clsx from 'clsx';
@@ -8,6 +8,7 @@ import { useCandidate } from '../../hooks/useLive';
 import Notes from '../Notes';
 import InterviewInfo from '../InterviewInfo';
 import { Row, Col } from 'antd';
+import { GlobalStateContext } from '../../state/GlobalState';
 
 const useStyles = makeStyles((theme: Theme) => ({
   room: {
@@ -38,6 +39,10 @@ const useStyles = makeStyles((theme: Theme) => ({
       gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
     },
   },
+  fullscreen: {
+    gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
+    gridTemplateRows: '100%',
+  },
   documentsNotesContainer: {
     gridArea: '3 / 1 / 4 / 2',
     [theme.breakpoints.down('xs')]: {
@@ -54,7 +59,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export default function Room() {
   const { data } = useCandidate();
-  const isDocuments = data?.files.length > 0;
+  const { view } = useContext(GlobalStateContext);
+
+  const isDocuments = data?.files.length > 0 && view !== 'fullscreen';
+
   const classes = useStyles();
 
   return (
@@ -62,10 +70,11 @@ export default function Room() {
       className={clsx(classes.room, {
         [classes.noFiles]: !isDocuments,
         [classes.files]: isDocuments,
+        [classes.fullscreen]: view === 'fullscreen',
       })}
     >
       <MainParticipant isDocuments={isDocuments} />
-      <BottomNotesSection isDocuments={isDocuments} />
+      <BottomNotesSection view={view} isDocuments={isDocuments} />
       <ParticipantList isDocuments={isDocuments} />
       {isDocuments && <SideBar />}
     </div>
