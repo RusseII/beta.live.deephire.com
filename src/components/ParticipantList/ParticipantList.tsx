@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ParticipantListProps {
   isDocuments: boolean;
 }
+
 export default function ParticipantList({ isDocuments }: ParticipantListProps) {
   const classes = useStyles();
   const {

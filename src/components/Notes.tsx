@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: 'calc(100% - 42px)',
     width: 'calc(100% - 165px)',
   },
+  quillRight: {
+    height: 'calc(100vh - 110px)',
+  },
 }));
 
 const Notes = () => {
@@ -35,6 +38,7 @@ const Notes = () => {
   const {
     room: { localParticipant },
   } = useVideoContext();
+  // const localParticipant = {identity: "rus"}
 
   const { data } = useLive();
   const startingNotes = data?.participants?.[localParticipant.identity]?.notes;

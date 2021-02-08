@@ -14,7 +14,7 @@ const getRole = () => {
 const getView = () => {
   const view: any = localStorage.getItem('view');
   if (view) return view;
-  return 'expanded';
+  return 'default';
 };
 const startingRole = getRole();
 const startingView = getView();
@@ -23,7 +23,7 @@ window.history.replaceState(null, '', window.location.pathname);
 
 interface GlobalStateContextType {
   role: 'candidate' | 'recruiter' | 'client';
-  view: 'fullscreen' | 'expanded' | 'minimal';
+  view: 'fullscreen' | 'default' | 'alternate';
   setView: React.Dispatch<React.SetStateAction<GlobalStateContextType['view']>>;
   setRole: React.Dispatch<React.SetStateAction<GlobalStateContextType['role']>>;
   startingRole: 'candidate' | 'recruiter' | 'client';

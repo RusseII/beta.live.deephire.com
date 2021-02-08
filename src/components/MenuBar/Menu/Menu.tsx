@@ -10,14 +10,23 @@ import Typography from '@material-ui/core/Typography';
 import { Theme, useMediaQuery } from '@material-ui/core';
 import { GlobalStateContext } from '../../../state/GlobalState';
 
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+
+import CheckMark from '@material-ui/icons/CheckCircleOutline';
+
 export default function Menu(props: { buttonClassName?: string }) {
   const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
   const [aboutOpen, setAboutOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const { setView } = useContext(GlobalStateContext);
+  const { view, setView } = useContext(GlobalStateContext);
 
   const anchorRef = useRef<HTMLButtonElement>(null);
+
+  const updateView = (viewType: 'fullscreen' | 'default' | 'alternate') => {
+    setView(viewType);
+    localStorage.setItem('view', viewType);
+  };
 
   return (
     <>
@@ -50,14 +59,17 @@ export default function Menu(props: { buttonClassName?: string }) {
         <MenuItem onClick={() => setSettingsOpen(true)}>
           <Typography variant="body1">Audio and Video Settings</Typography>
         </MenuItem>
-        <MenuItem onClick={() => setView('fullscreen')}>
+        <MenuItem onClick={() => updateView('fullscreen')}>
           <Typography variant="body1">View Full Screen</Typography>
+          {view === 'fullscreen' && <Check />}
         </MenuItem>
-        <MenuItem onClick={() => setView('expanded')}>
-          <Typography variant="body1">View Expanded</Typography>
+        <MenuItem onClick={() => updateView('default')}>
+          <Typography variant="body1">View Default</Typography>
+          {view === 'default' && <Check />}
         </MenuItem>
-        <MenuItem onClick={() => setView('minimal')}>
-          <Typography variant="body1">View Minimal</Typography>
+        <MenuItem onClick={() => updateView('alternate')}>
+          <Typography variant="body1">View Alternate</Typography>
+          {view === 'alternate' && <Check />}
         </MenuItem>
       </MenuContainer>
       <AboutDialog
@@ -77,3 +89,9 @@ export default function Menu(props: { buttonClassName?: string }) {
     </>
   );
 }
+
+const Check = () => (
+  <ListItemIcon style={{ marginLeft: 8 }}>
+    <CheckMark fontSize="small" />
+  </ListItemIcon>
+);
