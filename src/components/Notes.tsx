@@ -5,6 +5,7 @@ import { useLive, useParticipant } from '../hooks/useLive';
 import useVideoContext from '../hooks/useVideoContext/useVideoContext';
 import { Button } from 'antd';
 import { GlobalStateContext } from '../state/GlobalState';
+import clsx from 'clsx';
 
 import { styled, makeStyles, Theme } from '@material-ui/core/styles';
 import { Select } from 'antd';
@@ -43,7 +44,7 @@ const Notes = () => {
   const { data } = useLive();
   const startingNotes = data?.participants?.[localParticipant.identity]?.notes;
 
-  const { role, notes, setNotes } = useContext(GlobalStateContext);
+  const { role, notes, setNotes, view } = useContext(GlobalStateContext);
   const isSendOut = data.interviewType === 'client';
 
   useEffect(() => {
@@ -105,7 +106,7 @@ const Notes = () => {
             </Button>
           </div>
           <div>
-            <Button size="small" type="link" onClick={() => scrollToSection('Previous Employers')}>
+            <Button size="small" type="link" onClick={() => scrollToSection('Previous')}>
               Previous Employers
             </Button>
           </div>
@@ -144,7 +145,7 @@ const Notes = () => {
             </Button>
           </div>
           <div>
-            <Button size="small" type="link" onClick={() => scrollToSection('Close and Referrals')}>
+            <Button size="small" type="link" onClick={() => scrollToSection('Close and')}>
               Close/Referrals{' '}
             </Button>
           </div>
@@ -198,7 +199,9 @@ const Notes = () => {
         <div style={{ width: '100%', height: '100%', display: 'flex' }}>
           <AppleOneTemplate />
           <ReactQuill
-            className={classes.quill}
+            className={clsx(classes.quill, {
+              [classes.quillRight]: view === 'alternate',
+            })}
             ref={quilRef}
             onChange={setNotes}
             key="recruiter"
