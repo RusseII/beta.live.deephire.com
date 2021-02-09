@@ -17,8 +17,20 @@ const useStyles = makeStyles((theme: Theme) => ({
     display: 'grid',
   },
   noFiles: {
-    gridTemplateColumns: `1fr 40vw`,
-    gridTemplateRows: '70vh 30vh',
+    gridTemplateColumns: `${theme.sidebarWidth}px 1fr 40vw`,
+    gridTemplateRows: '60vh 40vh',
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateRows: `100%`,
+    },
+    // [theme.breakpoints.down('lg')]: {
+    //   gridTemplateColumns: `100%`,
+    //   gridTemplateRows: `1fr ${theme.sidebarMobileHeight + 16}px`,
+    // },
+  },
+
+  noFilesAlternate: {
+    gridTemplateColumns: `${theme.sidebarWidth}px 1fr 40vw`,
+    gridTemplateRows: '100vh',
     [theme.breakpoints.down('xs')]: {
       gridTemplateRows: `100%`,
     },
@@ -29,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   files: {
     gridTemplateColumns: `1fr 40vw`,
-    gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 30vh`,
+    gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
     // [theme.breakpoints.down('lg')]: {
     //   gridTemplateColumns: `1fr 40vw`,
     //   gridTemplateRows: `1fr  ${theme.sidebarMobileHeight + 16}px 40vh`,
@@ -40,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   fullscreen: {
-    gridTemplateColumns: `1fr ${theme.sidebarWidth}px`,
+    gridTemplateColumns: `${theme.sidebarWidth}px 1fr`,
     gridTemplateRows: '100%',
   },
   documentsNotesContainer: {
@@ -50,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   notesContainer: {
-    gridArea: '2 / 1 / 3 / 3',
+    gridArea: '2 / 1 / 3 / 4',
     [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
@@ -58,6 +70,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
   rightContainer: {
     gridArea: '1 / 2 / 4 / 3',
+  },
+
+  rightContainerNoFiles: {
+    gridArea: '1 / 3 / 4 / 4',
   },
 }));
 
@@ -74,6 +90,7 @@ export default function Room() {
       className={clsx(classes.room, {
         [classes.noFiles]: !isDocuments,
         [classes.files]: isDocuments,
+        [classes.noFilesAlternate]: view === 'alternate' && !isDocuments,
         [classes.fullscreen]: view === 'fullscreen',
       })}
     >
@@ -92,7 +109,8 @@ const BottomNotesSection = ({ isDocuments, view }: any) => {
       className={clsx({
         [classes.notesContainer]: !isDocuments,
         [classes.documentsNotesContainer]: isDocuments,
-        [classes.rightContainer]: view === 'alternate',
+        [classes.rightContainer]: view === 'alternate' && isDocuments,
+        [classes.rightContainerNoFiles]: view === 'alternate' && !isDocuments,
       })}
     >
       {view === 'default' && (
