@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '8px',
     },
     noFiles: {
-      gridArea: '1 / 2 / 2 / 3',
+      gridArea: '1 / 1 / 2 / 2',
     },
     files: {
       gridArea: '2 / 1 / 3 / 2',
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ParticipantListProps {
   isDocuments: boolean;
 }
+
 export default function ParticipantList({ isDocuments }: ParticipantListProps) {
   const classes = useStyles();
   const {

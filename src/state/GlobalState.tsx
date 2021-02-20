@@ -10,12 +10,21 @@ const getRole = () => {
   if (role) return role;
   return 'candidate';
 };
+
+const getView = () => {
+  const view: any = localStorage.getItem('view');
+  if (view) return view;
+  return 'default';
+};
 const startingRole = getRole();
+const startingView = getView();
 localStorage.setItem('role', startingRole);
 window.history.replaceState(null, '', window.location.pathname);
 
 interface GlobalStateContextType {
   role: 'candidate' | 'recruiter' | 'client';
+  view: 'fullscreen' | 'default' | 'alternate';
+  setView: React.Dispatch<React.SetStateAction<GlobalStateContextType['view']>>;
   setRole: React.Dispatch<React.SetStateAction<GlobalStateContextType['role']>>;
   startingRole: 'candidate' | 'recruiter' | 'client';
   notes: string;
@@ -31,6 +40,8 @@ export const GlobalStateContext = createContext<GlobalStateContextType>(null!);
 const GlobalStateProvider = ({ children }: any) => {
   const [role, setRole] = useState<GlobalStateContextType['role']>(startingRole);
   const [baseRole] = useState<GlobalStateContextType['role']>(startingRole);
+  const [view, setView] = useState<GlobalStateContextType['view']>(startingView);
+
   const [notes, setNotes] = useState<string>('');
   const [feedbackScreen, setFeedbackScreen] = useState<boolean>(false);
   const [connectedName, setConnectedName] = useState<string>('');
@@ -38,6 +49,8 @@ const GlobalStateProvider = ({ children }: any) => {
   return (
     <GlobalStateContext.Provider
       value={{
+        view,
+        setView,
         role,
         setRole,
         startingRole: baseRole,

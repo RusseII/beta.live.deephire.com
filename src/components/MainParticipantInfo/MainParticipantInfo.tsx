@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { LocalAudioTrack, LocalVideoTrack, Participant, RemoteAudioTrack, RemoteVideoTrack } from 'twilio-video';
@@ -15,6 +15,8 @@ import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecti
 import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator';
 import RecordingIndicator from './RecordingIndicator';
 import { useLive } from '../../hooks/useLive';
+import { GlobalStateContext } from '../../state/GlobalState';
+
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
     position: 'relative',
@@ -56,6 +58,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     // },
   },
   fullWidth: {
+    gridArea: '1 / 1 / 2 / 4',
+  },
+  fullWidthAlternate: {
     gridArea: '1 / 1 / 2 / 3',
   },
 
@@ -90,6 +95,8 @@ export default function MainParticipantInfo({ participant, children, isDocuments
   } = useVideoContext();
   const isLocal = localParticipant === participant;
 
+  const { view } = useContext(GlobalStateContext);
+
   const screenShareParticipant = useScreenShareParticipant();
   const isRemoteParticipantScreenSharing = screenShareParticipant && screenShareParticipant !== localParticipant;
 
@@ -113,6 +120,7 @@ export default function MainParticipantInfo({ participant, children, isDocuments
       className={clsx(classes.container, {
         [classes.fullWidthWithDocuments]: !isRemoteParticipantScreenSharing,
         [classes.fullWidth]: !isDocuments,
+        [classes.fullWidthAlternate]: view === 'alternate' && !isDocuments,
       })}
     >
       <div className={classes.infoContainer}>
