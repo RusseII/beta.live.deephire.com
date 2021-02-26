@@ -15,32 +15,24 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowY: 'auto',
       background: 'rgb(79, 83, 85)',
       zIndex: 5,
-      [theme.breakpoints.down('lg')]: {
-        overflowY: 'initial',
-        overflowX: 'auto',
-        display: 'flex',
-        padding: '8px',
-      },
+    },
+    filesContainer: {
+      overflowY: 'initial',
+      overflowX: 'auto',
+      display: 'flex',
+      padding: '8px',
     },
     noFiles: {
-      gridArea: '1 / 2 / 1 / 3',
-      [theme.breakpoints.down('lg')]: {
-        gridArea: '2 / 1 / 3 / 3',
-      },
+      gridArea: '1 / 1 / 2 / 2',
     },
     files: {
-      gridArea: '1 / 2 / 1 / 3',
-      [theme.breakpoints.down('lg')]: {
-        gridArea: '2 / 1 / 3 / 3',
-      },
+      gridArea: '2 / 1 / 3 / 2',
     },
     transparentBackground: {
       background: 'transparent',
     },
     scrollContainer: {
-      [theme.breakpoints.down('lg')]: {
-        display: 'flex',
-      },
+      display: 'flex',
     },
   })
 );
@@ -48,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface ParticipantListProps {
   isDocuments: boolean;
 }
+
 export default function ParticipantList({ isDocuments }: ParticipantListProps) {
   const classes = useStyles();
   const {
@@ -65,18 +58,20 @@ export default function ParticipantList({ isDocuments }: ParticipantListProps) {
     <aside
       className={clsx(classes.container, {
         [classes.transparentBackground]: !isRemoteParticipantScreenSharing,
-        [classes.files]: !isDocuments,
-        [classes.noFiles]: isDocuments,
+        [classes.noFiles]: !isDocuments,
+        [classes.files]: isDocuments,
+        [classes.filesContainer]: isDocuments,
       })}
     >
-      <div className={classes.scrollContainer}>
-        <Participant participant={localParticipant} isLocalParticipant={true} />
+      <div className={clsx({ [classes.scrollContainer]: isDocuments })}>
+        <Participant isDocuments={isDocuments} participant={localParticipant} isLocalParticipant={true} />
         {participants.map(participant => {
           const isSelected = participant === selectedParticipant;
           const hideParticipant =
             participant === mainParticipant && participant !== screenShareParticipant && !isSelected;
           return (
             <Participant
+              isDocuments={isDocuments}
               key={participant.sid}
               participant={participant}
               isSelected={participant === selectedParticipant}

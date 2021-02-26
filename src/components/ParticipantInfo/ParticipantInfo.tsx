@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme: Theme) =>
       border: `${BORDER_SIZE}px solid rgb(245, 248, 255)`,
       paddingTop: `calc(${(9 / 16) * 100}% - ${BORDER_SIZE}px)`,
       background: 'black',
-      [theme.breakpoints.down('lg')]: {
-        height: theme.sidebarMobileHeight,
-        width: `${(theme.sidebarMobileHeight * 16) / 9}px`,
-        marginRight: '8px',
-        marginBottom: '0',
-        fontSize: '10px',
-        paddingTop: `${theme.sidebarMobileHeight - 2}px`,
-      },
+    },
+    filesContainer: {
+      height: theme.sidebarMobileHeight,
+      width: `${(theme.sidebarMobileHeight * 16) / 9}px`,
+      marginRight: '8px',
+      marginBottom: '0',
+      fontSize: '10px',
+      paddingTop: `${theme.sidebarMobileHeight - 2}px`,
     },
     innerContainer: {
       position: 'absolute',
@@ -72,10 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
       bottom: 0,
       left: 0,
       zIndex: 1,
-      [theme.breakpoints.down('lg')]: {
-        '& svg': {
-          transform: 'scale(0.7)',
-        },
+    },
+    filesAvatarContainer: {
+      '& svg': {
+        transform: 'scale(0.7)',
       },
     },
     reconnectingContainer: {
@@ -124,9 +124,9 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     typeography: {
       color: 'white',
-      [theme.breakpoints.down('lg')]: {
-        fontSize: '0.75rem',
-      },
+    },
+    filesTypeography: {
+      fontSize: '0.75rem',
     },
     hideParticipant: {
       display: 'none',
@@ -144,6 +144,7 @@ interface ParticipantInfoProps {
   isSelected?: boolean;
   isLocalParticipant?: boolean;
   hideParticipant?: boolean;
+  isDocuments: boolean;
 }
 
 export default function ParticipantInfo({
@@ -153,6 +154,7 @@ export default function ParticipantInfo({
   children,
   isLocalParticipant,
   hideParticipant,
+  isDocuments,
 }: ParticipantInfoProps) {
   const publications = usePublications(participant);
 
@@ -173,6 +175,7 @@ export default function ParticipantInfo({
   return (
     <div
       className={clsx(classes.container, {
+        [classes.filesContainer]: isDocuments,
         [classes.hideParticipant]: hideParticipant,
         [classes.cursorPointer]: Boolean(onClick),
       })}
@@ -191,7 +194,11 @@ export default function ParticipantInfo({
           )}
           <span className={classes.identity}>
             <AudioLevelIndicator audioTrack={audioTrack} />
-            <Typography variant="body1" className={classes.typeography} component="span">
+            <Typography
+              variant="body1"
+              className={clsx(classes.typeography, { [classes.filesTypeography]: isDocuments })}
+              component="span"
+            >
               {participant.identity}
               {isLocalParticipant && ' (You)'}
             </Typography>
@@ -201,7 +208,11 @@ export default function ParticipantInfo({
       </div>
       <div className={classes.innerContainer}>
         {(!isVideoEnabled || isVideoSwitchedOff) && (
-          <div className={classes.avatarContainer}>
+          <div
+            className={clsx(classes.avatarContainer, {
+              [classes.filesAvatarContainer]: isDocuments,
+            })}
+          >
             <AvatarIcon />
           </div>
         )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Image } from 'antd';
 import Button from '@material-ui/core/Button';
@@ -6,6 +6,7 @@ import ChatSnackButton from '../Buttons/ChatSnackButton/ChatSnackButton';
 import EndCallButton from '../Buttons/EndCallButton/EndCallButton';
 import FlipCameraButton from './FlipCameraButton/FlipCameraButton';
 import Menu from './Menu/Menu';
+import ShareInterview from '../ShareInterview';
 
 import useRoomState from '../../hooks/useRoomState/useRoomState';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function MenuBar() {
-  const { data } = useCompany();
+  const { companyName, logo } = useCompany();
   const classes = useStyles();
   const { isSharingScreen, toggleScreenShare } = useVideoContext();
   const roomState = useRoomState();
@@ -83,7 +84,8 @@ export default function MenuBar() {
         <Grid container justify="space-around" alignItems="center">
           <Hidden smDown>
             <Grid style={{ flex: 1 }}>
-              <img alt={data.companyName} style={{ width: 'auto', height: '50px' }} src={data.logo} />
+              <img alt={companyName} style={{ width: 'auto', height: '50px' }} src={logo} />
+              <ShareInterview />
             </Grid>
           </Hidden>
           <Grid item>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { LocalAudioTrack, LocalVideoTrack, Participant, RemoteAudioTrack, RemoteVideoTrack } from 'twilio-video';
@@ -13,6 +13,9 @@ import useTrack from '../../hooks/useTrack/useTrack';
 import useVideoContext from '../../hooks/useVideoContext/useVideoContext';
 import useParticipantIsReconnecting from '../../hooks/useParticipantIsReconnecting/useParticipantIsReconnecting';
 import AudioLevelIndicator from '../AudioLevelIndicator/AudioLevelIndicator';
+import RecordingIndicator from './RecordingIndicator';
+import { useLive } from '../../hooks/useLive';
+import { GlobalStateContext } from '../../state/GlobalState';
 
 const useStyles = makeStyles((theme: Theme) => ({
   container: {
@@ -48,13 +51,19 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: 'rgba(40, 42, 43, 0.75)',
     zIndex: 1,
   },
-  fullWidth: {
-    gridArea: '1 / 1 / 2 / 3',
-    [theme.breakpoints.down('lg')]: {
-      gridArea: '1 / 1 / 3 / 3',
-      // gridArea: '1 / 1 / 3 / 2',
-    },
+  fullWidthWithDocuments: {
+    gridArea: '1 / 1 / 3 / 2',
+    // [theme.breakpoints.down('lg')]: {
+    //   gridArea: '1 / 1 / 3 / 2',
+    // },
   },
+  fullWidth: {
+    gridArea: '1 / 1 / 2 / 4',
+  },
+  fullWidthAlternate: {
+    gridArea: '1 / 1 / 2 / 3',
+  },
+
   avatarContainer: {
     display: 'flex',
     alignItems: 'center',
@@ -75,14 +84,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface MainParticipantInfoProps {
   participant: Participant;
   children: React.ReactNode;
+  isDocuments: boolean;
 }
 
-export default function MainParticipantInfo({ participant, children }: MainParticipantInfoProps) {
+export default function MainParticipantInfo({ participant, children, isDocuments }: MainParticipantInfoProps) {
+  const { data } = useLive();
   const classes = useStyles();
   const {
     room: { localParticipant },
   } = useVideoContext();
   const isLocal = localParticipant === participant;
+
+  const { view } = useContext(GlobalStateContext);
 
   const screenShareParticipant = useScreenShareParticipant();
   const isRemoteParticipantScreenSharing = screenShareParticipant && screenShareParticipant !== localParticipant;
@@ -105,7 +118,9 @@ export default function MainParticipantInfo({ participant, children }: MainParti
       data-cy-main-participant
       data-cy-participant={participant.identity}
       className={clsx(classes.container, {
-        [classes.fullWidth]: !isRemoteParticipantScreenSharing,
+        [classes.fullWidthWithDocuments]: !isRemoteParticipantScreenSharing,
+        [classes.fullWidth]: !isDocuments,
+        [classes.fullWidthAlternate]: view === 'alternate' && !isDocuments,
       })}
     >
       <div className={classes.infoContainer}>
@@ -116,6 +131,7 @@ export default function MainParticipantInfo({ participant, children }: MainParti
             {isLocal && ' (You)'}
             {screenSharePublication && ' - Screen'}
           </Typography>
+          {data?.recording === true && <RecordingIndicator />}
         </div>
       </div>
       {(!isVideoEnabled || isVideoSwitchedOff) && (

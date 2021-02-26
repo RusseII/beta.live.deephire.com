@@ -117,7 +117,7 @@ interface IntroContainerProps {
 }
 
 const IntroContainer = (props: IntroContainerProps) => {
-  const { data } = useCompany();
+  const { logo, companyName } = useCompany();
   const classes = useStyles();
   const { user } = useAppState();
   const location = useLocation();
@@ -131,7 +131,7 @@ const IntroContainer = (props: IntroContainerProps) => {
             <div className={classes.logoContainer}>
               <div className={classes.smallLogoContainer}>
                 <VideoLogo />
-                <img src={data?.logo} alt={data?.companyName} className={classes.brandLogo} />
+                <img src={logo} alt={companyName} className={classes.brandLogo} />
               </div>
               <Typography variant="h6" className={classes.title}>
                 Live Video Interviews

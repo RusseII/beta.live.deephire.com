@@ -12,6 +12,7 @@ interface ParticipantProps {
   isDominantSpeaker?: boolean;
   isLocalParticipant?: boolean;
   hideParticipant?: boolean;
+  isDocuments: boolean;
 }
 
 export default function Participant({
@@ -22,9 +23,11 @@ export default function Participant({
   isSelected,
   isLocalParticipant,
   hideParticipant,
+  isDocuments,
 }: ParticipantProps) {
   return (
     <ParticipantInfo
+      isDocuments={isDocuments}
       participant={participant}
       onClick={onClick}
       isSelected={isSelected}

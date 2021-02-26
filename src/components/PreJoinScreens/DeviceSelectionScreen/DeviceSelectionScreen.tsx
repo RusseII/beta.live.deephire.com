@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles, Typography, Grid, Button, Theme, Hidden } from '@material-ui/core';
 import LocalVideoPreview from './LocalVideoPreview/LocalVideoPreview';
 import SettingsMenu from './SettingsMenu/SettingsMenu';
@@ -7,7 +7,12 @@ import ToggleAudioButton from '../../Buttons/ToggleAudioButton/ToggleAudioButton
 import ToggleVideoButton from '../../Buttons/ToggleVideoButton/ToggleVideoButton';
 import { useAppState } from '../../../state';
 import useVideoContext from '../../../hooks/useVideoContext/useVideoContext';
-import { useCompany } from '../../../hooks/useLive';
+import { useCompany, useLive } from '../../../hooks/useLive';
+import { Modal } from 'antd';
+import { GlobalStateContext } from '../../../state/GlobalState';
+import { putter } from '../../../fetcher';
+
+const { confirm } = Modal;
 
 const useStyles = makeStyles((theme: Theme) => ({
   gutterBottom: {
@@ -58,20 +63,83 @@ interface DeviceSelectionScreenProps {
 }
 
 export default function DeviceSelectionScreen({ name, roomName, setStep }: DeviceSelectionScreenProps) {
-  const { data } = useCompany();
+  const { companyName, data } = useCompany();
   const classes = useStyles();
   const { getToken, isFetching } = useAppState();
   const { connect, isAcquiringLocalTracks, isConnecting } = useVideoContext();
   const disableButtons = isFetching || isAcquiringLocalTracks || isConnecting;
+  const { startingRole } = useContext(GlobalStateContext);
+  const { data: liveData } = useLive();
+
+  const showModal = () => {
+    const { _id } = data;
+    const appleoneId = '5e95d7d3aed1120001480d69';
+    const appledevId = '5f7f25460d77330001bc9b91';
+    const benjId = '5dc5d305a4ea435efa57f644';
+    const showRecordingId = benjId === _id || appleoneId === _id || appledevId === _id;
+    if (liveData.recording && showRecordingId) {
+      if (startingRole === 'candidate') {
+        return jobSeekerRecordingMessage();
+      }
+      if (startingRole === 'client') {
+        return clientRecordingMessage();
+      }
+    }
+    handleJoin();
+  };
+
+  function jobSeekerRecordingMessage() {
+    confirm({
+      width: 700,
+      title: 'Meeting will be recorded',
+      content: (
+        <div>
+          <p>{`By continuing in this meeting, I certify that I am 18 years of age and consent to being recorded.  If I do not consent to being recorded, I will not join the meeting.  By continuing in this meeting, and in consideration of (a) the employment placement services of Howroyd-Wright Employment Agency, Inc. dba AppleOne (“AppleOne”), and (b) any assignment to an AppleOne client (“the Client”), I hereby grant to AppleOne the right to use, collect, retain, and/or disclose, in whole or in part, my name, personal information, quotes from the interview, image, voice, and likeness in the video and audio-visual recordings as reflected in the meeting video recording (“Recording”). Furthermore, by continuing in this meeting, I hereby release and hold harmless AppleOne from any reasonable expectation of privacy or confidentiality associated with AppleOne’s use, collection, retention, and/or disclosure of such Recording in connection with my employment or potential employment by AppleOne or one of its Client.`}</p>
+
+          <span>
+            By clicking the “Join Room” button, I agree to{' '}
+            <a href="https://www.appleone.com/privacy.aspx" rel="noopener noreferrer" target="_blank">
+              AppleOne’s Privacy Policy
+            </a>
+            .{' '}
+          </span>
+        </div>
+      ),
+      okText: 'Join Interview',
+      onOk() {
+        handleJoin();
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
+  function clientRecordingMessage() {
+    confirm({
+      width: 700,
+
+      title: 'Meeting will be recorded',
+      content: `By clicking “Record Interview”, I understand that this meeting is being recorded and I hereby consent to any such recording.  By recording this meeting, I acknowledge and understand that Howroyd-Wright Employment Agency, Inc. dba AppleOne Employment Services will have the right to use, collect, retain, and/or disclose the meeting recording for AppleOne’s business and hiring purposes.  If I do not consent to being recorded, I will click “Live Interview (No Recording)” and the meeting will continue without being recorded.  I understand that I can also discuss any concerns related to being recorded with the host.`,
+      okText: 'Record Interview',
+      onOk() {
+        handleJoin();
+      },
+      cancelText: 'Live interview (No Recording)',
+      onCancel: async () => {
+        await putter(`/v1/live/${liveData._id}`, { recording: false });
+        handleJoin();
+      },
+    });
+  }
 
   const handleJoin = () => {
     getToken(name, roomName).then(token => connect(token));
   };
-
   return (
     <>
       <Typography variant="h5" className={classes.gutterBottom}>
-        Join {data.companyName} Video Room
+        Join {companyName} Video Room
       </Typography>
 
       <Grid container justify="center">
@@ -103,7 +171,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
                 variant="contained"
                 color="primary"
                 data-cy-join-now
-                onClick={handleJoin}
+                onClick={showModal}
                 disabled={disableButtons}
               >
                 Join Now
