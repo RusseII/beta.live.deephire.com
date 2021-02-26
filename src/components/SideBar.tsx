@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   bottom: {
     gridArea: '3 / 1 / 4 / 2',
   },
+  tabs: {
+    '& .ant-tabs-content': {
+      height: '100%',
+    },
+  },
 }));
 
 const SideBar = ({ view }: any) => {
@@ -69,6 +74,7 @@ interface File {
   uid: string;
 }
 const Documents = ({ candidateData }: DocumentsProps) => {
+  const classes = useStyles();
   if (candidateData?.files.length < 2) {
     const [file] = candidateData?.files;
     return (
@@ -79,7 +85,7 @@ const Documents = ({ candidateData }: DocumentsProps) => {
     );
   }
   return (
-    <Tabs style={{ padding: 24, color: 'white' }} defaultActiveKey="0">
+    <Tabs className={classes.tabs} style={{ padding: 24, color: 'white', height: '100%' }} defaultActiveKey="0">
       {candidateData.files.map((file: File, i: number) => (
         <TabPane tab={file.name} key={i.toLocaleString() + 1}>
           <ShowFile
