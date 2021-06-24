@@ -8,6 +8,7 @@ import useVideoTrackDimensions from '../../hooks/useVideoTrackDimensions/useVide
 const Video = styled('video')({
   width: '100%',
   height: '100%',
+  id: 'video',
 });
 
 interface VideoTrackProps {
@@ -45,5 +46,10 @@ export default function VideoTrack({ track, isLocal, priority }: VideoTrackProps
     objectFit: isPortrait || track.name.includes('screen') ? ('contain' as const) : ('cover' as const),
   };
 
-  return <Video ref={ref} style={style} />;
+  return (
+    <React.Fragment>
+      <Video ref={ref} style={style} />
+      <canvas id="canvas" height="100%" width="100%"></canvas>
+    </React.Fragment>
+  );
 }
