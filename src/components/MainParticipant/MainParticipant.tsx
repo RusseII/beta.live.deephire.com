@@ -1,5 +1,6 @@
 import MainParticipantInfo from '../MainParticipantInfo/MainParticipantInfo';
 import ParticipantTracks from '../ParticipantTracks/ParticipantTracks';
+import BlurButton from '../BlurButton';
 import React from 'react';
 import useMainParticipant from '../../hooks/useMainParticipant/useMainParticipant';
 import useSelectedParticipant from '../VideoProvider/useSelectedParticipant/useSelectedParticipant';
@@ -31,6 +32,7 @@ export default function MainParticipant({ isDocuments }: any) {
         videoPriority={videoPriority}
         isLocalParticipant={mainParticipant === localParticipant}
       />
+      <BlurButton participant={mainParticipant} />
     </MainParticipantInfo>
   );
 }
