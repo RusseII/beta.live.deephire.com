@@ -15,6 +15,7 @@ import ToggleAudioButton from '../Buttons/ToggleAudioButton/ToggleAudioButton';
 import ToggleVideoButton from '../Buttons/ToggleVideoButton/ToggleVideoButton';
 import ToggleScreenShareButton from '../Buttons/ToogleScreenShareButton/ToggleScreenShareButton';
 import { useCompany } from '../../hooks/useLive';
+import BlurButton from '../BlurButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -104,6 +105,7 @@ export default function MenuBar() {
               <Grid container justify="flex-end">
                 <Menu />
                 <EndCallButton />
+                <BlurButton />
               </Grid>
             </Grid>
           </Hidden>
