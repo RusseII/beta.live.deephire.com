@@ -45,10 +45,18 @@ export default function VideoTrack({ track, isLocal, priority }: VideoTrackProps
     objectFit: isPortrait || track.name.includes('screen') ? ('contain' as const) : ('cover' as const),
   };
 
+  let videoID = 'other';
+  let canvasID = 'other';
+
+  if (isLocal) {
+    videoID = 'video';
+    canvasID = 'canvas';
+  }
+
   return (
     <React.Fragment>
-      <canvas id="canvas" height="100%" width="100%"></canvas>
-      <Video id="video" width="100%" height="100%" ref={ref} style={style} />
+      <canvas id={canvasID} height="100%" width="100%"></canvas>
+      <Video id={videoID} width="100%" height="100%" ref={ref} style={style} />
     </React.Fragment>
   );
 }

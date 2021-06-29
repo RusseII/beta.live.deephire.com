@@ -7,7 +7,6 @@
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",
     "@tensorflow-models/body-pix": "^2.2.0",
-    "@tensorflow/tfjs": "^3.7.0",
     "@types/d3-timer": "^1.0.9",
     "@types/fscreen": "^1.0.1",
     "@types/jest": "^24.9.1",
@@ -73,7 +72,7 @@
     ]
   },
   "scripts": {
-    "start": "concurrently npm:server npm:dev",
+    "start": "vercel dev",
     "dev": "react-scripts start",
     "build": "node ./scripts/build.js",
     "test": "jest",
