@@ -81,7 +81,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       if (startingRole === 'candidate') {
         return jobSeekerRecordingMessage();
       }
-      if (startingRole === 'client') {
+      if (startingRole === 'client' || startingRole === 'recruiter') {
         return clientRecordingMessage();
       }
     }
@@ -116,11 +116,15 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
   }
 
   function clientRecordingMessage() {
+    let recordingMessage = `By clicking “Record Interview”, I understand that this meeting is being recorded and I hereby consent to any such recording.  By recording this meeting, I acknowledge and understand that Howroyd-Wright Employment Agency, Inc. dba AppleOne Employment Services will have the right to use, collect, retain, and/or disclose the meeting recording for AppleOne’s business and hiring purposes.  If I do not consent to being recorded, I will click “Live Interview (No Recording)” and the meeting will continue without being recorded.  I understand that I can also discuss any concerns related to being recorded with the host.`;
+    if (startingRole === 'recruiter') {
+      recordingMessage = `By clicking “Record Interview”, I understand that this meeting is being recorded and I hereby consent to any such recording.  By recording this meeting, I acknowledge and understand that Howroyd-Wright Employment Agency, Inc. dba AppleOne Employment Services will have the right to use, collect, retain, and/or disclose the meeting recording for AppleOne’s business and hiring purposes.  If I do not consent to being recorded, I will click “Live Interview (No Recording)” and the meeting will continue without being record.  I understand that I can also discuss any concerns related to being recorded with the host.`;
+    }
     confirm({
       width: 700,
 
       title: 'Meeting will be recorded',
-      content: `By clicking “Record Interview”, I understand that this meeting is being recorded and I hereby consent to any such recording.  By recording this meeting, I acknowledge and understand that Howroyd-Wright Employment Agency, Inc. dba AppleOne Employment Services will have the right to use, collect, retain, and/or disclose the meeting recording for AppleOne’s business and hiring purposes.  If I do not consent to being recorded, I will click “Live Interview (No Recording)” and the meeting will continue without being recorded.  I understand that I can also discuss any concerns related to being recorded with the host.`,
+      content: recordingMessage,
       okText: 'Record Interview',
       onOk() {
         handleJoin();
