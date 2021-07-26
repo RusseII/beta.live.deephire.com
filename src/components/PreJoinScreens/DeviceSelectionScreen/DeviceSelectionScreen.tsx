@@ -81,7 +81,7 @@ export default function DeviceSelectionScreen({ name, roomName, setStep }: Devic
       if (startingRole === 'candidate') {
         return jobSeekerRecordingMessage();
       }
-      if (startingRole === 'client') {
+      if (startingRole === 'client' || startingRole === 'recruiter') {
         return clientRecordingMessage();
       }
     }
